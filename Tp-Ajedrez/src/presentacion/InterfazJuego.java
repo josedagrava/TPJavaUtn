@@ -1,48 +1,42 @@
 package presentacion;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.ImageIcon;
+
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JButton;
-
-import java.awt.Component;
-
-import javax.swing.Box;
 import javax.swing.JSeparator;
-import javax.swing.JTable;
 import javax.swing.JList;
 
-import java.awt.List;
-import java.awt.Panel;
-import java.awt.image.ImageObserver;
-import java.awt.image.ImageProducer;
-
-import javax.swing.JEditorPane;
 import java.awt.Color;
-import java.awt.SystemColor;
 import javax.swing.ListSelectionModel;
-import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import entidades.*;
+import negocio.*;
 
 public class InterfazJuego extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtDniBlancas;
 	private JTextField txtDniNegras;
 	private JTextField txtNomyApeTurno;
 	private JTextField txtMovOrigen;
 	private JTextField textField;
+	private Controladora oControl;
+	private Partida partidaActual;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -81,6 +75,12 @@ public class InterfazJuego extends JFrame {
 		txtDniNegras.setColumns(10);
 		
 		JButton btnJugar = new JButton("Jugar");
+		btnJugar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				clickBotonJugar();
+			}
+		});
 		
 		JButton btnGuardar = new JButton("Guardar");
 		
@@ -92,10 +92,10 @@ public class InterfazJuego extends JFrame {
 		txtNomyApeTurno.setEditable(false);
 		txtNomyApeTurno.setColumns(10);
 		
-		JList listBlancas = new JList();
+		JList<String> listBlancas = new JList<String>();
 		listBlancas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JList list = new JList();
+		JList<String> list = new JList<String>();
 		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		JLabel lblPosicionBlancas = new JLabel("Posicion blancas");
@@ -245,5 +245,10 @@ public class InterfazJuego extends JFrame {
 		);
 		panel.setLayout(gl_panel);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	private void clickBotonJugar() {
+		
+		
 	}
 }

@@ -248,7 +248,17 @@ public class InterfazJuego extends JFrame {
 	}
 	
 	private void clickBotonJugar() {
-		
+		oControl = new Controladora();
+		partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
 		
 	}
+	
+	private void cargarPosicionFichas() {
+		
+	}
+	
+	private void iniciarPartida() {
+		
+	}
+	private void determinarTurno() {}
 }

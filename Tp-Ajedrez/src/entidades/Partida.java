@@ -7,6 +7,8 @@ public class Partida {
 	private int dniNegras;
 	private int idPartida;
 	
+	//puebra
+	
 	public void setDniBlancas(int dni){
 		this.dniBlancas=dni;
 	}

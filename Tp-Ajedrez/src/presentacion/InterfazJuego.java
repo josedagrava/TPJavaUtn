@@ -7,18 +7,22 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.JList;
 
 import java.awt.Color;
+
 import javax.swing.ListSelectionModel;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
+
 import entidades.*;
 import negocio.*;
 
@@ -36,6 +40,8 @@ public class InterfazJuego extends JFrame {
 	private JTextField textField;
 	private Controladora oControl;
 	private Partida partidaActual;
+	private JList<String> listBlancas;
+	private JList<String> listNegras;
 	
 	/**
 	 * Launch the application.
@@ -92,11 +98,11 @@ public class InterfazJuego extends JFrame {
 		txtNomyApeTurno.setEditable(false);
 		txtNomyApeTurno.setColumns(10);
 		
-		JList<String> listBlancas = new JList<String>();
+		listBlancas = new JList<String>();
 		listBlancas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
-		JList<String> list = new JList<String>();
-		list.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+		listNegras = new JList<String>();
+		listNegras.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		
 		JLabel lblPosicionBlancas = new JLabel("Posicion blancas");
 		
@@ -138,7 +144,7 @@ public class InterfazJuego extends JFrame {
 											.addGap(28)
 											.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 												.addComponent(lblPosicionNegras)
-												.addComponent(list, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
+												.addComponent(listNegras, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
 										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGap(10)
 											.addComponent(lblTurno)
@@ -181,7 +187,7 @@ public class InterfazJuego extends JFrame {
 							.addGap(6)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE, false)
 								.addComponent(listBlancas, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-								.addComponent(list, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE))
+								.addComponent(listNegras, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE))
 							.addGap(63))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -250,15 +256,39 @@ public class InterfazJuego extends JFrame {
 	private void clickBotonJugar() {
 		oControl = new Controladora();
 		partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
-		
+		if(partidaActual==null) {		
+			iniciarPartida();
+			
+		}
+		else{
+			int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
+					+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+			if(partidaExist==JOptionPane.OK_OPTION){
+				cargarPosicionFichas();
+			}
+			else {}
+		}
 	}
 	
+	private void posicionarFichasInicial(){
+		
+	}
 	private void cargarPosicionFichas() {
 		
 	}
 	
 	private void iniciarPartida() {
-		
+		int dni= determinarTurno();
+		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),dni);
+		posicionarFichasInicial();
 	}
-	private void determinarTurno() {}
+	private int determinarTurno() {
+		Random r= new Random();
+		if(r.nextDouble()<0.5){
+			return Integer.parseInt(txtDniBlancas.getText());
+		}
+		else{
+			return Integer.parseInt(txtDniNegras.getText());
+		}
+	}
 }

@@ -1,13 +1,13 @@
 package entidades;
 
+import java.util.Random;
+
 public class Partida {
 	
 	private int dniBlancas;
-	private String dniTurno;
+	private int dniTurno;
 	private int dniNegras;
 	private int idPartida;
-	
-	//puebra
 	
 	public void setDniBlancas(int dni){
 		this.dniBlancas=dni;
@@ -15,10 +15,10 @@ public class Partida {
 	public int getDniBlancas(){
 		return dniBlancas;
 	}
-	public String getDniTurno(){
+	public int getDniTurno(){
 		return dniTurno;
 	}
-	public void setDniTurno(String dni){
+	public void setDniTurno(int dni){
 		this.dniTurno=dni;
 	}
 	public int getDniNegras() {
@@ -33,5 +33,10 @@ public class Partida {
 	public void setIdPartida(int idPartida) {
 		this.idPartida = idPartida;
 	}
-
+	
+	public Partida(int dniB, int dniN,int dniT){
+		this.setDniBlancas(dniB);
+		this.setDniNegras(dniN);
+		this.setDniTurno(dniT);
+	}
 }

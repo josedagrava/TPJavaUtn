@@ -266,7 +266,9 @@ public class InterfazJuego extends JFrame {
 			if(partidaExist==JOptionPane.OK_OPTION){
 				cargarPosicionFichas();
 			}
-			else {}
+			else {
+				iniciarPartida();
+			}
 		}
 	}
 	
@@ -278,17 +280,8 @@ public class InterfazJuego extends JFrame {
 	}
 	
 	private void iniciarPartida() {
-		int dni= determinarTurno();
+		int dni= oControl.determinarTurno(txtDniBlancas.getText(), txtDniNegras.getText());
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),dni);
 		posicionarFichasInicial();
-	}
-	private int determinarTurno() {
-		Random r= new Random();
-		if(r.nextDouble()<0.5){
-			return Integer.parseInt(txtDniBlancas.getText());
-		}
-		else{
-			return Integer.parseInt(txtDniNegras.getText());
-		}
 	}
 }

@@ -10,7 +10,8 @@ public class DatosJugadores {
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
 		
-	
+		//Prueba de MERGE
+		
 		try {
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
 					"insert into jugadores(dni, nombre, apellido) values (?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS

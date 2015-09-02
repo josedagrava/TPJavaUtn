@@ -2,12 +2,8 @@ package entidades;
 
 public abstract class Pieza {
 	
-	public boolean esmovimientovalido (String posicionorigen, String posiciondestino){
+	public boolean esmovimientovalido (String posiciondestino){
 		
-		boolean v;
-	
-		v=true;
-		
-		return(v);
+		return true;
 	}
 }

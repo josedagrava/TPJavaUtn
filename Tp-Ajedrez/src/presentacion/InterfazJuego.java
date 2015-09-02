@@ -13,18 +13,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
-import javax.swing.JList;
 
 import java.awt.Color;
 
-import javax.swing.ListSelectionModel;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 import entidades.*;
 import negocio.*;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class InterfazJuego extends JFrame {
 
@@ -39,9 +38,8 @@ public class InterfazJuego extends JFrame {
 	private JTextField txtMovOrigen;
 	private JTextField textField;
 	private Controladora oControl;
-	private Partida partidaActual;
-	private JList<String> listBlancas;
-	private JList<String> listNegras;
+	private Partida partidaActual=null;
+	private JTable tblPosiciones;
 	
 	/**
 	 * Launch the application.
@@ -64,7 +62,7 @@ public class InterfazJuego extends JFrame {
 	 */
 	public InterfazJuego() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 521, 435);
+		setBounds(100, 100, 561, 535);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(169, 169, 169));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -98,12 +96,6 @@ public class InterfazJuego extends JFrame {
 		txtNomyApeTurno.setEditable(false);
 		txtNomyApeTurno.setColumns(10);
 		
-		listBlancas = new JList<String>();
-		listBlancas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		
-		listNegras = new JList<String>();
-		listNegras.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-		
 		JLabel lblPosicionBlancas = new JLabel("Posicion blancas");
 		
 		JLabel lblPosicionNegras = new JLabel("Posicion negras");
@@ -112,7 +104,28 @@ public class InterfazJuego extends JFrame {
 		panel.setForeground(new Color(0, 100, 0));
 		
 		JPanel panelimage = new JPanel();
-		panelimage.setSize(276, 280);
+		panelimage.setSize(276, 280);		
+		
+		tblPosiciones = new JTable();
+		tblPosiciones.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"DNI Blancas", "DNI Negras"
+			}
+		) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			boolean[] columnEditables = new boolean[] {
+				false, false
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -138,64 +151,60 @@ public class InterfazJuego extends JFrame {
 								.addGroup(gl_contentPane.createSequentialGroup()
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_contentPane.createSequentialGroup()
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-												.addComponent(listBlancas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(lblPosicionBlancas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-											.addGap(28)
-											.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-												.addComponent(lblPosicionNegras)
-												.addComponent(listNegras, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)))
-										.addGroup(gl_contentPane.createSequentialGroup()
 											.addGap(10)
 											.addComponent(lblTurno)
 											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(txtNomyApeTurno, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-									.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(txtNomyApeTurno, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+											.addComponent(tblPosiciones, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+												.addComponent(lblPosicionBlancas)
+												.addGap(29)
+												.addComponent(lblPosicionNegras))))
+									.addPreferredGap(ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
 									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(panelimage, GroupLayout.PREFERRED_SIZE, 221, GroupLayout.PREFERRED_SIZE)
-										.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)))))
+										.addComponent(panel, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
+										.addComponent(panelimage, GroupLayout.PREFERRED_SIZE, 276, GroupLayout.PREFERRED_SIZE)))))
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 472, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(83, Short.MAX_VALUE))
+					.addContainerGap(18, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(33)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDNIblancas)
-						.addComponent(txtDniBlancas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnJugar))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDniNegras)
-						.addComponent(txtDniNegras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnGuardar))
-					.addGap(1)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblTurno)
-									.addComponent(txtNomyApeTurno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(33)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblDNIblancas)
+								.addComponent(txtDniBlancas, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnJugar))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblDniNegras)
+								.addComponent(txtDniNegras, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnGuardar))
+							.addGap(1)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(42)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-										.addComponent(lblPosicionBlancas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(lblPosicionNegras))))
-							.addGap(6)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE, false)
-								.addComponent(listBlancas, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
-								.addComponent(listNegras, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE))
-							.addGap(63))
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+											.addComponent(lblTurno)
+											.addComponent(txtNomyApeTurno, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(42)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+												.addComponent(lblPosicionBlancas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addComponent(lblPosicionNegras))))
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(tblPosiciones, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+									.addGap(121))
+								.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addContainerGap())))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(92)
-					.addComponent(panelimage, GroupLayout.PREFERRED_SIZE, 143, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(139, Short.MAX_VALUE))
+							.addGap(92)
+							.addComponent(panelimage, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		
 		txtMovOrigen = new JTextField();
@@ -223,24 +232,26 @@ public class InterfazJuego extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(lblPosicionDestino)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, 0, 0, Short.MAX_VALUE))
-								.addComponent(lblMovimientoDeFichas))
+									.addComponent(textField, 0, 0, Short.MAX_VALUE)))
 							.addContainerGap())
-						.addGroup(gl_panel.createSequentialGroup()
+						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(lblMovOrigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtMovOrigen, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-							.addGap(12))))
+							.addGap(12))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblMovimientoDeFichas)
+							.addContainerGap(22, Short.MAX_VALUE))))
 		);
 		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+			gl_panel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblMovimientoDeFichas)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblMovOrigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(txtMovOrigen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txtMovOrigen, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblMovOrigen, GroupLayout.DEFAULT_SIZE, 20, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPosicionDestino)
@@ -254,34 +265,74 @@ public class InterfazJuego extends JFrame {
 	}
 	
 	private void clickBotonJugar() {
-		oControl = new Controladora();
-		partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
-		if(partidaActual==null) {		
-			iniciarPartida();
-			
-		}
-		else{
-			int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
-					+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-			if(partidaExist==JOptionPane.OK_OPTION){
-				cargarPosicionFichas();
-			}
-			else {
+		if(partidaActual==null){
+			oControl = new Controladora();
+			partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
+			if(partidaActual==null) {		
 				iniciarPartida();
+			
+			}
+			else{
+				int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
+						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
+				if(partidaExist==JOptionPane.OK_OPTION){
+					cargarPosicionFichas();
+				}
+				else {
+					iniciarPartida();
+				}
+			}
+		}
+		else
+		{
+			int op= JOptionPane.showConfirmDialog(contentPane, "Estas saliendo de la partida actual. Desea guardar"
+					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+			if(op==JOptionPane.YES_OPTION){
+				//clickBotonGuardar();
 			}
 		}
 	}
 	
 	private void posicionarFichasInicial(){
+		String[][] posiciones= {
+				{"Peon-A2", "Peon-A7"},
+				{"Peon-B2", "Peon-B7"},
+				{"Peon-C2", "Peon-C7"},
+				{"Peon-D2", "Peon-D7"},
+				{"Peon-E2", "Peon-E7"},
+				{"Peon-F2", "Peon-F7"},
+				{"Peon-G2", "Peon-G7"},
+				{"Peon-H2", "Peon-H7"},
+				{"Torre-A1","Torre-A8"},
+				{"Torre-H1","Torre-H8"},
+				{"Caballo-B1","Caballo-B8"},
+				{"Caballo-G1","Caballo-G8"},
+				{"Alfil-C1","Alfil-C8"},
+				{"Alfil-F1","Alfil-F8"},
+				{"Reina-D1","Reina-D8"},
+				{"Rey-E1","Rey-E8"},								
+		};
 		
+		setModelo(posiciones);
 	}
+	
 	private void cargarPosicionFichas() {
 		
+		String[][] posiciones= oControl.getDatosPosiciones(partidaActual.getIdPartida());
+		setModelo(posiciones);
+		
+	}
+	private void setModelo(String [][] posiciones){
+		
+		DefaultTableModel modelo= (DefaultTableModel)tblPosiciones.getModel();		
+		modelo.addRow(posiciones);
+		tblPosiciones.setModel(modelo);
 	}
 	
 	private void iniciarPartida() {
-		int dni= oControl.determinarTurno(txtDniBlancas.getText(), txtDniNegras.getText());
-		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),dni);
+		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
+		partidaActual.setIdPartida(oControl.addPartida(partidaActual));		
 		posicionarFichasInicial();
 	}
+	
 }

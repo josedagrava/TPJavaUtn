@@ -17,17 +17,18 @@ import entidades.Torre;
 
 public class DatosPosicion {
 	
-	static HashMap<Pieza, Posicion> colPosiciones;
+	static HashMap<Posicion, Pieza> colPosiciones;
 	
 	/**
 	 * Duevuelve los datos de las posiciones almacenas en la BD.
 	 * */
-	public HashMap<Pieza,Posicion> getDatosPosiciones(int id) {
+	public void getDatosPosiciones(int id) {
 		ResultSet rs=null;
 		PreparedStatement stmt= null;
+		colPosiciones= new HashMap<Posicion, Pieza>();
 		
 		try{
-			ArrayList<Posicion> posiciones= new ArrayList<Posicion>();
+		//	ArrayList<Posicion> posiciones= new ArrayList<Posicion>();
 			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from Posicion where idPartida=?");
 			stmt.setInt(1, id);
 			
@@ -35,14 +36,14 @@ public class DatosPosicion {
 			while(rs.next()){
 				Posicion posic=new Posicion();
 				posic.setIdPartida(rs.getInt("idPartida"));
-				posic.setColor(rs.getString("color"));
 				posic.setEstaEnTablero(rs.getBoolean("estaEnTablero"));
-				posic.setTipoPieza(rs.getString("tipoPieza"));
 				posic.setPosicion(rs.getString("posicion"));
-				posiciones.add(posic);
-			}//esto es una prueba
-			this.cargarHashMap(posiciones);
-			return colPosiciones;
+				Pieza pieza=devolverObjetoPieza(rs.getString("tipoPieza"));
+				pieza.setColor(rs.getString("color"));
+				
+				colPosiciones.put(posic, pieza);
+				//posiciones.add(posic);
+			}
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block
@@ -55,32 +56,44 @@ public class DatosPosicion {
 			catch(SQLException e){
 				// TODO Auto-generated catch block
 			}
-		}
-		return null;		
+		}		
 	}
-
+	
+	public static HashMap<Posicion, Pieza>getHashMap(){
+		return colPosiciones;
+	}
+	
 	/**
-	 * Los datos traidos desde la BD son cargados al atributo estatico colposiciones;
+	 * devuelve el objeto de Pieza
 	 * */
-	 public void cargarHashMap(ArrayList<Posicion> posiciones){
-		for (Posicion p : posiciones) {
-			switch (p.getTipoPieza()) {
-			case "P":colPosiciones.put(new Peon(), p);
-				break;
-			case "T": colPosiciones.put(new Torre(),p);
-				break;
-			case "A": colPosiciones.put(new Alfil(),p);
-				break;
-			case "C": colPosiciones.put(new Caballo(),p);
-				break;
-			case "R": colPosiciones.put(new Rey(),p);
-				break;
-			case "D": colPosiciones.put(new Reina(),p);
-				break;
-			default:
-				break;
-			}			
-		}
+	private Pieza devolverObjetoPieza(String tipoPieza) {
 		
+		Pieza objeto=null;
+		switch (tipoPieza) {
+		case "P": objeto= new Peon();
+			break;
+		case "T": objeto = new Torre();
+			break;
+		case "A": objeto = new Alfil();
+			break;
+		case "C": objeto = new Caballo();
+			break;
+		case "R": objeto = new Rey();
+			break;
+		case "D": objeto = new Reina();
+			break;
+		default:
+			break;
+		}
+		return objeto;
+	}
+	 
+	 /**
+	  * Instancia las posiciones iniciales en el hashmap
+	  * */
+	static void addPosicionesIniciales(Posicion p, Pieza ficha) {
+		colPosiciones= new HashMap<Posicion, Pieza>();
+		
+		Peon.posicionInicial(colPosiciones);
 	}
 }

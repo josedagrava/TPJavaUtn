@@ -312,7 +312,6 @@ public class InterfazJuego extends JFrame {
 				{"Reina-D1","Reina-D8"},
 				{"Rey-E1","Rey-E8"},								
 		};
-		
 		setModelo(posiciones);
 	}
 	

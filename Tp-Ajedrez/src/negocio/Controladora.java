@@ -3,6 +3,7 @@ package negocio;
 import datos.DatosPartidas;
 import datos.DatosPosicion;
 import entidades.Partida;
+import entidades.Peon;
 import entidades.Pieza;
 import entidades.Posicion;
 
@@ -31,8 +32,10 @@ public class Controladora {
 	 * */
 	public int addPartida(Partida partidaActual) {
 		DatosPartidas oDatosPartida = new DatosPartidas();
+		int idpartida= oDatosPartida.add(partidaActual);
 		
-		return oDatosPartida.add(partidaActual);
+		
+		return idpartida;
 	}
 	
 	
@@ -48,24 +51,16 @@ public class Controladora {
 		int n=0;
 		int b=0;
 		
-		HashMap<Pieza, Posicion> posiciones =null; new HashMap<Pieza, Posicion>();
-		/*
-		for(int i=0;i<16;i++){
-			for(int j=0;j<16;j++){
-				posicionString[i][j]="----";
-			}
-		}*/
+		HashMap<Posicion, Pieza> posiciones =null;	
 		try{
-			posiciones= new HashMap<Pieza, Posicion>();
-			posiciones= oDatosPosicion.getDatosPosiciones(id);
-			posiciones.values();
-			for (Posicion p : posiciones.values()) {
+			posiciones= DatosPosicion.getHashMap();
+			for (Pieza p : posiciones.values()) {
 				if(p.getColor().equals("N")){				
-					posicionString[n][1]= p.getTipoPieza()+p.getPosicion();
+					//posicionString[n][1]= p.getTipoPieza()+p.getPosicion();
 					n++;
 				}
 				else{
-					posicionString[b][0]= p.getTipoPieza()+p.getPosicion();
+					//posicionString[b][0]= p.getTipoPieza()+p.getPosicion();
 					b++;
 					}			
 				}

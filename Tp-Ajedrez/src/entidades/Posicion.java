@@ -4,7 +4,6 @@ public class Posicion {
 	
 	private int idPartida;
 	private String tipoPieza;
-	private String color;
 	private String posicion;
 	private boolean estaEnTablero;
 	
@@ -20,12 +19,7 @@ public class Posicion {
 	public void setTipoPieza(String tipoPieza) {
 		this.tipoPieza = tipoPieza;
 	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
+	
 	public String getPosicion() {
 		return posicion;
 	}
@@ -38,5 +32,15 @@ public class Posicion {
 	public void setEstaEnTablero(boolean estaEnTablero) {
 		this.estaEnTablero = estaEnTablero;
 	} 
-
+//equals
+	//hashcode
+	
+	public Posicion(){}
+	public Posicion(int id, String tipo, String posi,boolean esta){
+		
+		this.setIdPartida(id);
+		this.setEstaEnTablero(esta);
+		this.setPosicion(posi);
+		this.setTipoPieza(tipo);
+	}
 }

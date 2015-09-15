@@ -572,22 +572,22 @@ public class InterfazJuego extends JFrame {
 	
 	private void posicionarFichasInicial(){
 		String[][] posiciones= {
-				{"Peon-A2", "Peon-A7"},
-				{"Peon-B2", "Peon-B7"},
-				{"Peon-C2", "Peon-C7"},
-				{"Peon-D2", "Peon-D7"},
-				{"Peon-E2", "Peon-E7"},
-				{"Peon-F2", "Peon-F7"},
-				{"Peon-G2", "Peon-G7"},
-				{"Peon-H2", "Peon-H7"},
-				{"Torre-A1","Torre-A8"},
-				{"Torre-H1","Torre-H8"},
-				{"Caballo-B1","Caballo-B8"},
-				{"Caballo-G1","Caballo-G8"},
-				{"Alfil-C1","Alfil-C8"},
-				{"Alfil-F1","Alfil-F8"},
-				{"Reina-D1","Reina-D8"},
-				{"Rey-E1","Rey-E8"},								
+				{"Peon-A7", "Peon-A2"},
+				{"Peon-B7", "Peon-B2"},
+				{"Peon-C7", "Peon-C2"},
+				{"Peon-D7", "Peon-D2"},
+				{"Peon-E7", "Peon-E2"},
+				{"Peon-F7", "Peon-F2"},
+				{"Peon-G7", "Peon-G2"},
+				{"Peon-H7", "Peon-H2"},
+				{"Torre-A8","Torre-A1"},
+				{"Torre-H8","Torre-H1"},
+				{"Caballo-B8","Caballo-B1"},
+				{"Caballo-G8","Caballo-G1"},
+				{"Alfil-C8","Alfil-C1"},
+				{"Alfil-F8","Alfil-F1"},
+				{"Reina-D8","Reina-D1"},
+				{"Rey-E8","Rey-E1"},								
 		};
 		setModelo(posiciones);
 	}
@@ -595,7 +595,7 @@ public class InterfazJuego extends JFrame {
 	private void cargarPosicionFichas() {
 		
 		String[][] posiciones= oControl.getDatosPosiciones(partidaActual.getIdPartida());
-		setModelo(posiciones);
+		this.setModelo(posiciones);
 		
 	}
 	private void setModelo(String [][] posiciones){

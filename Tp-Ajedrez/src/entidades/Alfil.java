@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.HashMap;
+
 public class Alfil extends Pieza {
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
@@ -24,5 +26,17 @@ public class Alfil extends Pieza {
 		{
 			return false;
 		}
+	}
+
+	public Alfil(){}
+	public Alfil(String col){
+		this.setColor(col);
+	}
+	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
+		
+		colPosiciones.put(new Posicion(id, "C8", true), new Alfil("B"));
+		colPosiciones.put(new Posicion(id, "F8", true), new Alfil("B"));
+		colPosiciones.put(new Posicion(id, "C1", true), new Alfil("N"));
+		colPosiciones.put(new Posicion(id, "F1", true), new Alfil("N"));
 	}
 }

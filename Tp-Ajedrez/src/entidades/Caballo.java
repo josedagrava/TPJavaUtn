@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.HashMap;
+
 public class Caballo extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
@@ -27,5 +29,18 @@ public class Caballo extends Pieza{
 			return false;
 		}
 		
+	}
+
+	public Caballo(){}
+	public Caballo(String col){
+		this.setColor(col);
+	}
+	
+	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
+			
+		colPosiciones.put(new Posicion(id, "B8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id, "G8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id, "B1", true), new Caballo("N"));
+		colPosiciones.put(new Posicion(id, "G1", true), new Caballo("N"));
 	}
 }

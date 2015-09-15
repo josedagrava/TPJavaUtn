@@ -32,15 +32,25 @@ public class Posicion {
 	public void setEstaEnTablero(boolean estaEnTablero) {
 		this.estaEnTablero = estaEnTablero;
 	} 
-//equals
-	//hashcode
+	
+	@Override
+	public boolean equals(Object obj) {
+		// TODO Auto-generated method stub
+		return super.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		// TODO Auto-generated method stub
+		return super.hashCode();
+	}
 	
 	public Posicion(){}
-	public Posicion(int id, String tipo, String posi,boolean esta){
+	public Posicion(int id,/* String tipo,*/ String posi,boolean esta){
 		
 		this.setIdPartida(id);
 		this.setEstaEnTablero(esta);
 		this.setPosicion(posi);
-		this.setTipoPieza(tipo);
+		//this.setTipoPieza(tipo);
 	}
 }

@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.HashMap;
+
 public class Rey extends Pieza {
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
@@ -25,5 +27,17 @@ public class Rey extends Pieza {
 		{
 			return false;
 		}
+	}
+
+	public Rey(){}
+	public Rey(String col){
+		this.setColor(col);
+	}
+	
+	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
+		
+		colPosiciones.put(new Posicion(id, "E8", true), new Rey("B"));
+		colPosiciones.put(new Posicion(id,"E1",true), new Rey("N"));
+		
 	}
 }

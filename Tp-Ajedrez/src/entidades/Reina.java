@@ -1,6 +1,13 @@
 package entidades;
 
+import java.util.HashMap;
+
 public class Reina extends Pieza{
+	
+	public Reina(){}
+	public Reina(String col){
+		this.setColor(col);
+	}
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
@@ -27,6 +34,13 @@ public class Reina extends Pieza{
 			return false;
 		}
 		
+		
+	}
+
+	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
+		
+		colPosiciones.put(new Posicion(id,"D8",true), new Reina("B"));
+		colPosiciones.put(new Posicion(id,"D1",true), new Reina("N"));
 		
 	}
 }

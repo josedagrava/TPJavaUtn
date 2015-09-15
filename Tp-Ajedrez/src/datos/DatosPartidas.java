@@ -25,6 +25,7 @@ public class DatosPartidas {
 			
 			if(rs!=null && rs.next()){
 				p.setIdPartida(rs.getInt("idPartida"));
+				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
 				return p.getIdPartida();
 			}
 			else return 0;

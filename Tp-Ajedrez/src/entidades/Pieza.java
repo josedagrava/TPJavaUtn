@@ -1,6 +1,6 @@
 package entidades;
 
-public class Pieza {
+public abstract class Pieza {
 
 	private String color;
 
@@ -10,9 +10,12 @@ public class Pieza {
 	public void setColor(String color) {
 		this.color = color;
 	}
+	public Pieza(){}
+	public Pieza(String col){
+		this.setColor(col);
+	}
 	
-	
-	private boolean EsMovimientoValido (String posInicial, String posFinal)
+	public boolean EsMovimientoValido (String posInicial, String posFinal)
 	{
 		
 		char letraInicial = posInicial.charAt(0);

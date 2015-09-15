@@ -3,7 +3,6 @@ package datos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import entidades.Alfil;
@@ -38,11 +37,11 @@ public class DatosPosicion {
 				posic.setIdPartida(rs.getInt("idPartida"));
 				posic.setEstaEnTablero(rs.getBoolean("estaEnTablero"));
 				posic.setPosicion(rs.getString("posicion"));
+				
 				Pieza pieza=devolverObjetoPieza(rs.getString("tipoPieza"));
 				pieza.setColor(rs.getString("color"));
 				
 				colPosiciones.put(posic, pieza);
-				//posiciones.add(posic);
 			}
 		}
 		catch(SQLException e){
@@ -59,7 +58,10 @@ public class DatosPosicion {
 		}		
 	}
 	
-	public static HashMap<Posicion, Pieza>getHashMap(){
+	/**
+	 * Devuelve la coleccion hashMap
+	 * */
+	public static HashMap<Posicion, Pieza> getHashMap(){
 		return colPosiciones;
 	}
 	
@@ -91,9 +93,15 @@ public class DatosPosicion {
 	 /**
 	  * Instancia las posiciones iniciales en el hashmap
 	  * */
-	static void addPosicionesIniciales(Posicion p, Pieza ficha) {
+	public static void addPosicionesIniciales(int id) {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
-		Peon.posicionInicial(colPosiciones);
+		Peon.posicionInicial(colPosiciones, id);
+		Alfil.posicionInicial(colPosiciones, id);
+		Torre.posicionInicial(colPosiciones, id);
+		Caballo.posicionInicial(colPosiciones, id);
+		Rey.posicionInicial(colPosiciones, id);
+		Reina.posicionInicial(colPosiciones, id);
+		
 	}
 }

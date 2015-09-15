@@ -2,11 +2,7 @@ package negocio;
 
 import datos.DatosPartidas;
 import datos.DatosPosicion;
-import entidades.Partida;
-import entidades.Peon;
-import entidades.Pieza;
-import entidades.Posicion;
-
+import entidades.*;
 import java.util.HashMap;
 
 public class Controladora {
@@ -34,7 +30,6 @@ public class Controladora {
 		DatosPartidas oDatosPartida = new DatosPartidas();
 		int idpartida= oDatosPartida.add(partidaActual);
 		
-		
 		return idpartida;
 	}
 	
@@ -45,26 +40,25 @@ public class Controladora {
 	 * Metodo que devuelve las posiciones que estan en la base de datos, para continuar con una partida anterior
 	 * */
 	public String[][] getDatosPosiciones(int id) {
-		//falta hacer
-		DatosPosicion oDatosPosicion = new DatosPosicion();
+		
 		String[][] posicionString = new String[16][16];
-		int n=0;
-		int b=0;
 		
 		HashMap<Posicion, Pieza> posiciones =null;	
 		try{
+			int n=0;
+			int b=0;
 			posiciones= DatosPosicion.getHashMap();
-			for (Pieza p : posiciones.values()) {
-				if(p.getColor().equals("N")){				
-					//posicionString[n][1]= p.getTipoPieza()+p.getPosicion();
+			for(Posicion k: posiciones.keySet()){
+				Pieza p=posiciones.get(k);
+				if(p.getColor().equals("N")){
+					posicionString[n][1]= k.getTipoPieza()+k.getPosicion();
 					n++;
 				}
 				else{
-					//posicionString[b][0]= p.getTipoPieza()+p.getPosicion();
+					posicionString[b][0]= k.getTipoPieza()+k.getPosicion();
 					b++;
-					}			
 				}
-		return posicionString;
+			}
 		}catch(Exception e)
 		{
 			

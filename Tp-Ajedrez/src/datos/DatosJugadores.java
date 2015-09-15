@@ -1,36 +1,36 @@
 package datos;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 import entidades.Jugador;
 
 public class DatosJugadores {
 	
-	public void add(Jugador j){
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
+	public ArrayList<Jugador> getJugadores(int dni1, int dni2) {
 		
-		try {
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement(
-					"insert into jugadores(dni, nombre, apellido) values (?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS
-				   );
-			stmt.setInt(1, j.getDni());
-			stmt.setString(2, j.getNombre());
-			stmt.setString(3, j.getApellido());
-			stmt.execute();
-
-			rs=stmt.getGeneratedKeys();
-			
-			if(rs!=null && rs.next()){
-				//j.setId(rs.getInt(1)); 
+		PreparedStatement stmt=null;;
+		ResultSet rs=null;
+		ArrayList<Jugador> jugadores=null;
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from Jugadores where dni=? or dni=?");
+			stmt.setInt(1, dni1);
+			stmt.setInt(2, dni2);
+			rs=stmt.executeQuery();
+			jugadores= new ArrayList<Jugador>();
+			while(rs.next()){
+				Jugador j= new Jugador();
+				j.setDni(rs.getInt("dni"));
+				j.setApellido(rs.getString("apellido"));
+				j.setNombre(rs.getString("nombre"));
+				
+				jugadores.add(j);
 			}
-			
-		} catch (SQLException e) {
+			return jugadores;
+		}catch(SQLException e){
 			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		finally{
-			
 			try {
 				if(rs!=null ) rs.close();
 				if(stmt != null) stmt.close();
@@ -38,10 +38,8 @@ public class DatosJugadores {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
 			FactoryConexion.getInstancia().releaseConn();
 		}
+		return null;
 	}
-
-
 }

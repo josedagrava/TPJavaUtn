@@ -9,7 +9,24 @@ public class Peon extends Pieza{
 		this.setColor(color);
 	}
 
-	public static void posicionInicial(HashMap<Posicion, Pieza> coleccion){
+	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id){
+		
+		colPosiciones.put(new Posicion(id, "A7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "B7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "C7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "D7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "E7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "F7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "G7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "H7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id, "A2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "B2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "C2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "D2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "E2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "F2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "G2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id, "H2", true), new Peon("N"));
 		
 	}
 

@@ -86,4 +86,10 @@ public class Controladora {
 		
 	}
 
+	public void deletePartida(Partida partidaActual) {		
+		DatosPartidas oDatosPartida = new DatosPartidas();
+		oDatosPartida.delete(partidaActual);
+		
+	}
+
 }

@@ -369,7 +369,7 @@ public class InterfazJuego extends JFrame {
 		
 		JLabel lblTurno = new JLabel("Turno:");
 		
-		txtNomyApeTurno = new JTextField();
+		txtNomyApeTurno = new JTextField("Empiezan las blancas");
 		txtNomyApeTurno.setEditable(false);
 		txtNomyApeTurno.setColumns(10);
 		
@@ -549,21 +549,32 @@ public class InterfazJuego extends JFrame {
 			
 			partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
 			if(partidaActual==null) {		
-				iniciarPartida();
+				this.iniciarPartida();
 				this.determinarTurno();
 				
 			}
 			else{
-				int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
+				int opcion= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
 						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				if(partidaExist==JOptionPane.OK_OPTION){
+				if(opcion==JOptionPane.OK_OPTION){
 					oControl.cargarHashMap(partidaActual.getIdPartida());
-					cargarPosicionFichas();
+					this.cargarPosicionFichas();
 					this.determinarTurno();
 				}
 				else {
-					iniciarPartida();
-					this.determinarTurno();
+						opcion= (JOptionPane.showConfirmDialog(contentPane, "Eliminar la partida anterior y empezar una nueva?", "Eliminar partida "
+							+ "anterior", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE));
+					
+						if(opcion==JOptionPane.YES_OPTION){
+						oControl.deletePartida(partidaActual);
+						this.iniciarPartida();
+						this.determinarTurno();
+						}
+						else{
+							// TODO Preguntar como cerrar la ventana principal
+							//cerrar el juego.
+							
+						}
 				}
 			}
 		}
@@ -572,6 +583,7 @@ public class InterfazJuego extends JFrame {
 			int op= JOptionPane.showConfirmDialog(contentPane, "Estas saliendo de la partida actual. Desea guardar"
 					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if(op==JOptionPane.YES_OPTION){
+				// TODO declarar la llamada al metodo
 				//clickBotonGuardar();
 			}
 		}

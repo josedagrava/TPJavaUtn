@@ -3,6 +3,7 @@ package datos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import entidades.Partida;
 
@@ -84,6 +85,22 @@ public class DatosPartidas {
 			FactoryConexion.getInstancia().releaseConn();
 		}
 		return null;
+	}
+
+	public void delete(Partida partidaActual) {
+		PreparedStatement stmt= null;
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("delete from partida where idPartida=?");
+			stmt.setInt(1, partidaActual.getIdPartida());
+			stmt.executeQuery();
+			
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			
+		}
+		
 	}
 	
 

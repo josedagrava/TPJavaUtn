@@ -314,7 +314,7 @@ public class InterfazJuego extends JFrame {
 	private JTextField txtNomyApeTurno;
 	private JTextField txtMovOrigen;
 	private JTextField textField;
-	private Controladora oControl;
+	private Controladora oControl = new Controladora();
 	private Partida partidaActual=null;
 	private JTable tblPosiciones;
 	
@@ -541,22 +541,29 @@ public class InterfazJuego extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * Metodo click del boton Jugar
+	 * */
 	private void clickBotonJugar() {
 		if(partidaActual==null){
-			oControl = new Controladora();
+			
 			partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
 			if(partidaActual==null) {		
 				iniciarPartida();
-			
+				this.determinarTurno();
+				
 			}
 			else{
 				int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
 						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if(partidaExist==JOptionPane.OK_OPTION){
+					oControl.cargarHashMap(partidaActual.getIdPartida());
 					cargarPosicionFichas();
+					this.determinarTurno();
 				}
 				else {
 					iniciarPartida();
+					this.determinarTurno();
 				}
 			}
 		}
@@ -570,46 +577,41 @@ public class InterfazJuego extends JFrame {
 		}
 	}
 	
-	private void posicionarFichasInicial(){
-		String[][] posiciones= {
-				{"Peon-A7", "Peon-A2"},
-				{"Peon-B7", "Peon-B2"},
-				{"Peon-C7", "Peon-C2"},
-				{"Peon-D7", "Peon-D2"},
-				{"Peon-E7", "Peon-E2"},
-				{"Peon-F7", "Peon-F2"},
-				{"Peon-G7", "Peon-G2"},
-				{"Peon-H7", "Peon-H2"},
-				{"Torre-A8","Torre-A1"},
-				{"Torre-H8","Torre-H1"},
-				{"Caballo-B8","Caballo-B1"},
-				{"Caballo-G8","Caballo-G1"},
-				{"Alfil-C8","Alfil-C1"},
-				{"Alfil-F8","Alfil-F1"},
-				{"Reina-D8","Reina-D1"},
-				{"Rey-E8","Rey-E1"},								
-		};
-		setModelo(posiciones);
+	/**
+	 * pide a clase controladora el nombre y apellido del jugador que tiene turno y lo setea al textBox
+	 * */
+	private void determinarTurno() {
+		
+		txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
+		
 	}
 	
+	
+	/**
+	 * pide a control las posiciones
+	 * */
 	private void cargarPosicionFichas() {
 		
-		String[][] posiciones= oControl.getDatosPosiciones(partidaActual.getIdPartida());
+		String[][] posiciones= oControl.getDatosPosiciones();
 		this.setModelo(posiciones);
 		
 	}
+	/**
+	 * Setea el modelo en la jTable
+	 * */
 	private void setModelo(String [][] posiciones){
 		
 		DefaultTableModel modelo= (DefaultTableModel)tblPosiciones.getModel();		
 		modelo.addRow(posiciones);
 		tblPosiciones.setModel(modelo);
 	}
-	
+	/**
+	 * instancia la partida actual y llama a metodo cargaPosicionesfichas
+	 * */
 	private void iniciarPartida() {
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
-		partidaActual.setIdPartida(oControl.addPartida(partidaActual));		
-		posicionarFichasInicial();
+		partidaActual.setIdPartida(oControl.addPartida(partidaActual));
+		this.cargarPosicionFichas();
 	}
 	
 }
-

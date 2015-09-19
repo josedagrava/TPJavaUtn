@@ -1,18 +1,30 @@
 package negocio;
 
+import datos.DatosJugadores;
 import datos.DatosPartidas;
 import datos.DatosPosicion;
 import entidades.*;
+
 import java.util.HashMap;
 
 public class Controladora {
 		
 	//Metodos de DatosJugadores
 	
-	
+	/**
+	 * retorna el Nombre y Apellido del jugador que tiene el turno que fue buscado en la base de datos.
+	 * */
+	public String getJugador(int dniTurno) {
+		DatosJugadores oDatos = new DatosJugadores();
+		return oDatos.getNomyApe(dniTurno);
+		
+	}
 	
 	//Metodos de DatosPartida
-
+	
+	/**
+	 * pide a DatosPartidas que busque la partida que corresponde para los dos jugadores especificados
+	 * */
 	public Partida buscarPartida(String dniBlancas, String dniNegras) {
 		DatosPartidas oDatosPartida = new DatosPartidas();
 		Partida partidaActual= oDatosPartida.buscarPartida(Integer.parseInt(dniBlancas), Integer.parseInt(dniNegras));
@@ -24,7 +36,7 @@ public class Controladora {
 	}
 	
 	/**
-	 * agrega una partida nueva
+	 * Agrega una partida nueva
 	 * */
 	public int addPartida(Partida partidaActual) {
 		DatosPartidas oDatosPartida = new DatosPartidas();
@@ -33,13 +45,12 @@ public class Controladora {
 		return idpartida;
 	}
 	
-	
 	//Metodos de DatosPosiciones
 	
 	/**
 	 * Metodo que devuelve las posiciones que estan en la base de datos, para continuar con una partida anterior
 	 * */
-	public String[][] getDatosPosiciones(int id) {
+	public String[][] getDatosPosiciones() {
 		
 		String[][] posicionString = new String[16][16];
 		
@@ -64,6 +75,15 @@ public class Controladora {
 			
 		}
 		return posicionString;
+	}
+	
+	/**
+	 * le pide a clase DatosPosiciones que instancia las posiciones guardadas en DB en el hashMap
+	 * */
+	public void cargarHashMap(int idPartida) {
+		DatosPosicion oDatosPosicion= new DatosPosicion();
+		oDatosPosicion.getDatosPosiciones(idPartida);
+		
 	}
 
 }

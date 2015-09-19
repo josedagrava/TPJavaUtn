@@ -19,7 +19,7 @@ public class DatosPosicion {
 	static HashMap<Posicion, Pieza> colPosiciones;
 	
 	/**
-	 * Duevuelve los datos de las posiciones almacenas en la BD.
+	 * Carga el HashMap colPosiciones con las posiciones de la partida de la DB
 	 * */
 	public void getDatosPosiciones(int id) {
 		ResultSet rs=null;
@@ -27,7 +27,6 @@ public class DatosPosicion {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
 		try{
-		//	ArrayList<Posicion> posiciones= new ArrayList<Posicion>();
 			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from Posicion where idPartida=?");
 			stmt.setInt(1, id);
 			

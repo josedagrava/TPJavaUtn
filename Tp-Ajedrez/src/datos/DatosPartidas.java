@@ -45,7 +45,10 @@ public class DatosPartidas {
 		}
 		return 0;
 	}
-
+	
+	/**
+	 * Busca una partida por dni de los jugadores.
+	 * */
 	public Partida buscarPartida(int dniBlancas, int dniNegras) {
 		
 		ResultSet rs=null;
@@ -64,10 +67,9 @@ public class DatosPartidas {
 				partidaActual.setDniTurno(rs.getInt("dniTurno"));
 				partidaActual.setIdPartida(rs.getInt("idPartida"));
 				partidaActual.setEstado(rs.getString("estadoPartida"));
-				
-				return partidaActual;
 			}
 			
+			return partidaActual;
 		}catch(SQLException e){
 			// TODO Auto-generated catch block
 		}

@@ -42,4 +42,37 @@ public class DatosJugadores {
 		}
 		return null;
 	}
+	
+	
+	/**
+	 * Busca el nombre y apellido del jugador por Dni y lo retorna como String.
+	 * */
+	public String getNomyApe(int dniTurno) {
+		PreparedStatement stmt=null;
+		ResultSet rs=null;
+		String retorno="";
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select nombre, apellido from Jugadores where dni=?");
+			stmt.setInt(1, dniTurno);
+			rs= stmt.executeQuery();
+			if(rs!=null && rs.next()){
+				retorno= (rs.getString("nombre")+ rs.getString("apellido"));
+			}
+			return retorno;
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			try {
+				if(rs!=null ) rs.close();
+				if(stmt != null) stmt.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+		
+		return null;
+	}
 }

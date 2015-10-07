@@ -292,7 +292,6 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import java.awt.Color;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -315,8 +314,8 @@ public class InterfazJuego extends JFrame {
 	private JTextField txtDniNegras;
 	private JTextField txtNomyApeTurno;
 	private JTextField txtMovOrigen;
-	private JTextField textField;
-	private Controladora oControl;
+	private JTextField txtMovDestino;
+	private Controladora oControl = new Controladora();
 	private Partida partidaActual=null;
 	private JTable tblPosiciones;
 	
@@ -381,7 +380,7 @@ public class InterfazJuego extends JFrame {
 		
 		JLabel lblTurno = new JLabel("Turno:");
 		
-		txtNomyApeTurno = new JTextField();
+		txtNomyApeTurno = new JTextField("Empiezan las blancas");
 		txtNomyApeTurno.setEditable(false);
 		txtNomyApeTurno.setColumns(10);
 		
@@ -503,10 +502,16 @@ public class InterfazJuego extends JFrame {
 		
 		JLabel lblPosicionDestino = new JLabel("Posicion destino:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtMovDestino = new JTextField();
+		txtMovDestino.setColumns(10);
 		
 		JButton btnMover = new JButton("Mover");
+		btnMover.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				clickBotonMover();
+			}
+		});
 		
 		JLabel lblMovimientoDeFichas = new JLabel("Movimiento de Fichas");
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -521,7 +526,7 @@ public class InterfazJuego extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(lblPosicionDestino)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, 0, 0, Short.MAX_VALUE)))
+									.addComponent(txtMovDestino, 0, 0, Short.MAX_VALUE)))
 							.addContainerGap())
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(lblMovOrigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -544,7 +549,7 @@ public class InterfazJuego extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPosicionDestino)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtMovDestino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnMover)
 					.addContainerGap())
@@ -553,22 +558,40 @@ public class InterfazJuego extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * Metodo click del boton Jugar
+	 * */
 	private void clickBotonJugar() {
 		if(partidaActual==null){
-			oControl = new Controladora();
+			
 			partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
 			if(partidaActual==null) {		
-				iniciarPartida();
-			
+				this.iniciarPartida();
+				this.determinarTurno();
+				
 			}
 			else{
-				int partidaExist= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
+				int opcion= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
 						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
-				if(partidaExist==JOptionPane.OK_OPTION){
-					cargarPosicionFichas();
+				if(opcion==JOptionPane.OK_OPTION){
+					oControl.cargarHashMap(partidaActual.getIdPartida());
+					this.cargarPosicionFichas();
+					this.determinarTurno();
 				}
 				else {
-					iniciarPartida();
+						opcion= (JOptionPane.showConfirmDialog(contentPane, "Eliminar la partida anterior y empezar una nueva?", "Eliminar partida "
+							+ "anterior", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE));
+					
+						if(opcion==JOptionPane.YES_OPTION){
+						oControl.deletePartida(partidaActual);
+						this.iniciarPartida();
+						this.determinarTurno();
+						}
+						else{
+							// TODO Preguntar como cerrar la ventana principal
+							//cerrar el juego.
+							
+						}
 				}
 			}
 		}
@@ -577,56 +600,82 @@ public class InterfazJuego extends JFrame {
 			int op= JOptionPane.showConfirmDialog(contentPane, "Estas saliendo de la partida actual. Desea guardar"
 					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if(op==JOptionPane.YES_OPTION){
+				// TODO declarar la llamada al metodo
 				//clickBotonGuardar();
 			}
 		}
 	}
 	
-	private void posicionarFichasInicial(){
-		String[][] posiciones= {
-				{"Peon-A7", "Peon-A2"},
-				{"Peon-B7", "Peon-B2"},
-				{"Peon-C7", "Peon-C2"},
-				{"Peon-D7", "Peon-D2"},
-				{"Peon-E7", "Peon-E2"},
-				{"Peon-F7", "Peon-F2"},
-				{"Peon-G7", "Peon-G2"},
-				{"Peon-H7", "Peon-H2"},
-				{"Torre-A8","Torre-A1"},
-				{"Torre-H8","Torre-H1"},
-				{"Caballo-B8","Caballo-B1"},
-				{"Caballo-G8","Caballo-G1"},
-				{"Alfil-C8","Alfil-C1"},
-				{"Alfil-F8","Alfil-F1"},
-				{"Reina-D8","Reina-D1"},
-				{"Rey-E8","Rey-E1"},								
-		};
-		setModelo(posiciones);
+	/**
+	 * pide a clase controladora el nombre y apellido del jugador que tiene turno y lo setea al textBox
+	 * */
+	private void determinarTurno() {
+		
+		txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
+		
 	}
 	
+	
+	/**
+	 * pide a control las posiciones
+	 * */
 	private void cargarPosicionFichas() {
 		
-		String[][] posiciones= oControl.getDatosPosiciones(partidaActual.getIdPartida());
+		String[][] posiciones= oControl.getDatosPosiciones();
 		this.setModelo(posiciones);
 		
 	}
+	/**
+	 * Setea el modelo en la jTable
+	 * */
 	private void setModelo(String [][] posiciones){
 		
 		DefaultTableModel modelo= (DefaultTableModel)tblPosiciones.getModel();		
 		modelo.addRow(posiciones);
 		tblPosiciones.setModel(modelo);
 	}
-	
+	/**
+	 * instancia la partida actual y llama a metodo cargaPosicionesfichas
+	 * */
 	private void iniciarPartida() {
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
-		partidaActual.setIdPartida(oControl.addPartida(partidaActual));		
-		posicionarFichasInicial();
+		partidaActual.setIdPartida(oControl.addPartida(partidaActual));
+		this.cargarPosicionFichas();
 	}
 	
+<<<<<<< HEAD
 	private void Guardar()
 	{
 		oControl.guardar();
 	}
 	
 }
+=======
+>>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
 
+	private void clickBotonMover(){
+		Boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
+		
+			if (movValido){
+					Boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
+				
+					if(continuaJuego){
+					
+						oControl.modificarTurno(partidaActual);
+						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
+						String [][] posiciones;
+						posiciones = oControl.devolverPosiciones();
+						setModelo(posiciones);
+					}
+					
+					else{
+						JOptionPane.showMessageDialog(null, oControl.getJugador(partidaActual.getDniTurno()) + "Ganaste!!");
+						}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Movimiento invalido" ,"Mensaje de advertencia",JOptionPane.WARNING_MESSAGE);
+				
+			}
+	}
+	
+}

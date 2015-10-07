@@ -3,6 +3,7 @@ package datos;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import entidades.Partida;
 
@@ -45,7 +46,10 @@ public class DatosPartidas {
 		}
 		return 0;
 	}
-
+	
+	/**
+	 * Busca una partida por dni de los jugadores.
+	 * */
 	public Partida buscarPartida(int dniBlancas, int dniNegras) {
 		
 		ResultSet rs=null;
@@ -64,10 +68,9 @@ public class DatosPartidas {
 				partidaActual.setDniTurno(rs.getInt("dniTurno"));
 				partidaActual.setIdPartida(rs.getInt("idPartida"));
 				partidaActual.setEstado(rs.getString("estadoPartida"));
-				
-				return partidaActual;
 			}
 			
+			return partidaActual;
 		}catch(SQLException e){
 			// TODO Auto-generated catch block
 		}
@@ -83,6 +86,31 @@ public class DatosPartidas {
 		}
 		return null;
 	}
+
+	public void delete(Partida partidaActual) {
+		PreparedStatement stmt= null;
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("delete from partida where idPartida=?");
+			stmt.setInt(1, partidaActual.getIdPartida());
+			stmt.executeQuery();
+			
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			
+		}
+		
+	}
 	
+
+	public void modificarTurno(Partida partidaActual){
+		if(partidaActual.getDniTurno()== partidaActual.getDniBlancas()){
+			partidaActual.setDniTurno(partidaActual.getDniNegras());
+		}
+		else{
+		partidaActual.setDniTurno(partidaActual.getDniBlancas());
+		}
+	}
 
 }

@@ -1,12 +1,20 @@
 package datos;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+/*<<<<
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+=======
 
+import com.mysql.fabric.xmlrpc.base.Value;
+>>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
+*/
 import entidades.Alfil;
 import entidades.Caballo;
 import entidades.Peon;
@@ -20,8 +28,9 @@ public class DatosPosicion {
 	
 	static HashMap<Posicion, Pieza> colPosiciones;
 	
+	
 	/**
-	 * Duevuelve los datos de las posiciones almacenas en la BD.
+	 * Carga el HashMap colPosiciones con las posiciones de la partida de la DB
 	 * */
 	public void getDatosPosiciones(int id) {
 		ResultSet rs=null;
@@ -29,7 +38,6 @@ public class DatosPosicion {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
 		try{
-		//	ArrayList<Posicion> posiciones= new ArrayList<Posicion>();
 			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from Posicion where idPartida=?");
 			stmt.setInt(1, id);
 			
@@ -106,6 +114,7 @@ public class DatosPosicion {
 		Reina.posicionInicial(colPosiciones, id);
 		
 	}
+//<<<<<<< HEAD
 
 	public void guardar() {
 		
@@ -180,4 +189,97 @@ public class DatosPosicion {
 		}
 	}
 
+=======
+	
+	
+	
+	public Boolean guardarMovimiento(Posicion posInicio,String destino){
+		Posicion po= null;
+		Pieza pi=null;
+		Boolean v=Boolean.TRUE;
+		
+		 for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
+			     Posicion key = entry.getKey();
+			     
+			     Pieza value = entry.getValue();
+			     
+			     if(key == posInicio){
+			    	 po=key;
+			    	 pi= value;
+			    	 
+			    	 colPosiciones.remove(key);
+			    	 colPosiciones.remove(value);
+			    	 
+			    	 }
+			     }
+		 
+		 po.setPosicion(destino);
+		 colPosiciones.put(po, pi);
+		 
+		 
+		 for (Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
+		     Posicion key = entry.getKey();
+		     
+		     Pieza value = entry.getValue();
+		     
+		     if(key.getPosicion() == destino){
+		    	 
+		    	 if(key.getTipoPieza()=="Rey"){
+		    		 v=Boolean.FALSE;
+		    	 
+		    	 }
+		    	 colPosiciones.remove(key);
+		    	 colPosiciones.remove(value);
+		    	 
+		    	 }
+		     }
+		 
+		 return v;
+
+		 	 }
+	 
+		 
+	 public Posicion devolverPosicion( String origen){
+		 Posicion po;
+		 po=null;
+
+		 for (Posicion p : colPosiciones.keySet()) {
+		     
+			if(p.getPosicion()==origen){
+				 po=p;
+			 }
+		 
+		 }
+		
+		 return po;
+		 
+	 }
+	 
+	 
+	 public String [][] devolverPosiciones(){
+		 
+		 String [][] posiciones= null;
+		 int n=0;
+		 int m=0;
+		 
+		 for (Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
+		     Posicion key = entry.getKey();
+		     Pieza p= entry.getValue();
+		     
+		     String pos= key.getTipoPieza() + key.getPosicion();
+		     
+		     if(p.getColor()=="B"){
+		    	
+		    	 posiciones[n][1]=pos;
+			     n++;
+		     }
+		     else{
+		    	 posiciones[m][2]=pos;
+		    	 m++;
+		     }
+		    
+	     }
+		 return posiciones;
+		}
+//>>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
 }

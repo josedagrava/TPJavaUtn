@@ -6,15 +6,8 @@ import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-/*<<<<
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-=======
 
-import com.mysql.fabric.xmlrpc.base.Value;
->>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
-*/
 import entidades.Alfil;
 import entidades.Caballo;
 import entidades.Peon;

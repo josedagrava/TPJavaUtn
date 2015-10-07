@@ -6,6 +6,7 @@ import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 
 import entidades.Alfil;
@@ -108,12 +109,21 @@ public class DatosPosicion {
 		
 	}
 
-	public void guardar() {
-		
-		Iterator it = colPosiciones.entrySet().iterator();
-		while(it.hasNext())
+	public void guardar() 
+	{
+		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
-			//colPosiciones.ge
+			Posicion key = entry.getKey();
+			Pieza value = entry.getValue();
+			
+			if(key==null)
+			 {
+				 insertar(key, value);
+			 }
+			 else
+			 {
+				 actualizar(key);
+			 }
 		}
 	}
 	
@@ -129,6 +139,7 @@ public class DatosPosicion {
 			stmt.setString(2, p.getPosicion());
 			stmt.setBoolean(3, p.isEstaEnTablero());
 			stmt.setString(4, pi.getColor());
+			stmt.execute();
 			rs=stmt.getGeneratedKeys();
 			
 			if(rs!=null && rs.next()){

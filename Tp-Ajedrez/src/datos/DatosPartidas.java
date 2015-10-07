@@ -25,7 +25,7 @@ public class DatosPartidas {
 			
 			rs=stmt.getGeneratedKeys();
 			
-			if(rs!=null && rs.next()){
+			if(rs!=null /*&& rs.next()*/){
 				p.setIdPartida(rs.getInt("idPartida"));
 				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
 

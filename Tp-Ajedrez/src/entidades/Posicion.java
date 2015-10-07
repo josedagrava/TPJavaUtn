@@ -6,7 +6,7 @@ public class Posicion {
 	private String tipoPieza;
 	private String posicion;
 	private boolean estaEnTablero;
-	
+
 	public int getIdPartida(){
 		return idPartida;
 	}
@@ -46,11 +46,12 @@ public class Posicion {
 	}
 	
 	public Posicion(){}
-	public Posicion(int id,/* String tipo,*/ String posi,boolean esta){
+	public Posicion(int id,/* String tipo,*/ String posi,boolean esta, String color){
 		
 		this.setIdPartida(id);
 		this.setEstaEnTablero(esta);
 		this.setPosicion(posi);
+		this.setColor(color);
 		//this.setTipoPieza(tipo);
 	}
 }

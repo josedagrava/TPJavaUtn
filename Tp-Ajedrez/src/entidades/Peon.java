@@ -11,7 +11,7 @@ public class Peon extends Pieza{
 
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id){
 		
-		colPosiciones.put(new Posicion(id, "A7", true), new Peon("B"));
+		/*colPosiciones.put(new Posicion(id, "A7", true), new Peon("B"));
 		colPosiciones.put(new Posicion(id, "B7", true), new Peon("B"));
 		colPosiciones.put(new Posicion(id, "C7", true), new Peon("B"));
 		colPosiciones.put(new Posicion(id, "D7", true), new Peon("B"));
@@ -26,8 +26,7 @@ public class Peon extends Pieza{
 		colPosiciones.put(new Posicion(id, "E2", true), new Peon("N"));
 		colPosiciones.put(new Posicion(id, "F2", true), new Peon("N"));
 		colPosiciones.put(new Posicion(id, "G2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id, "H2", true), new Peon("N"));
-		
+		colPosiciones.put(new Posicion(id, "H2", true), new Peon("N"));*/
 	}
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
@@ -47,23 +46,24 @@ public class Peon extends Pieza{
 		int diferenciaL= letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if(((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) /* & son piezas blancas*/  
+		if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))  
 		{
 			return true;
 		}
 		else
 		{
-			/*if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && son piezas negras
+			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
 			{
 				return true;
 			}
 			else
 			{
-			*/
 				return false;
 		}
 		
 		
 		
 	}
+	}
 }
+

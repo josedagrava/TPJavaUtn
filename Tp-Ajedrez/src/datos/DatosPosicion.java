@@ -4,6 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import entidades.Alfil;
 import entidades.Caballo;
@@ -104,4 +106,78 @@ public class DatosPosicion {
 		Reina.posicionInicial(colPosiciones, id);
 		
 	}
+
+	public void guardar() {
+		
+		Iterator it = colPosiciones.entrySet().iterator();
+		while(it.hasNext())
+		{
+			//colPosiciones.ge
+		}
+	}
+	
+	public int insertar(Posicion p, Pieza pi)
+	{
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into posicion(tipoPieza, posicion, estaEnTablero, color)"
+					+ "values(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, p.getTipoPieza());
+			stmt.setString(2, p.getPosicion());
+			stmt.setBoolean(3, p.isEstaEnTablero());
+			stmt.setString(4, pi.getColor());
+			rs=stmt.getGeneratedKeys();
+			
+			if(rs!=null && rs.next()){
+				p.setIdPartida(rs.getInt("idPartida"));
+				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
+				return p.getIdPartida();
+			}
+			else return 0;
+		}
+		catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			try{
+				if(rs!=null ) rs.close();
+				if(stmt != null) stmt.close();
+				}
+			catch(SQLException e){
+				
+			}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+		return 0;
+	}
+	
+	public void actualizar(Posicion p)
+	{
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("update posicion set posicion=? where idPartida=?"
+					+ "values(?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, p.getPosicion());
+			stmt.setInt(2, p.getIdPartida());
+			}
+		
+		catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			try{
+				if(rs!=null ) rs.close();
+				if(stmt != null) stmt.close();
+				}
+			catch(SQLException e){
+				
+			}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+	}
+
 }

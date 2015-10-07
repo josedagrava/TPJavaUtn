@@ -66,4 +66,12 @@ public class Controladora {
 		return posicionString;
 	}
 
+	/* metodo para guardar las posiciones del tablero en el hash map*/
+	
+	public void guardar() {
+	 
+		DatosPosicion oDatosPosicion = new DatosPosicion();
+		oDatosPosicion.guardar();
+	}
+
 }

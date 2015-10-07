@@ -301,6 +301,8 @@ import negocio.*;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class InterfazJuego extends JFrame {
 
@@ -364,6 +366,16 @@ public class InterfazJuego extends JFrame {
 		});
 		
 		JButton btnGuardar = new JButton("Guardar");
+		btnGuardar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnGuardar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Guardar();
+			}
+		});
 		
 		JSeparator separator = new JSeparator();
 		
@@ -609,6 +621,11 @@ public class InterfazJuego extends JFrame {
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
 		partidaActual.setIdPartida(oControl.addPartida(partidaActual));		
 		posicionarFichasInicial();
+	}
+	
+	private void Guardar()
+	{
+		oControl.guardar();
 	}
 	
 }

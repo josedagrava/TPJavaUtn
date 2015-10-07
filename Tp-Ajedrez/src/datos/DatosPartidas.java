@@ -16,7 +16,7 @@ public class DatosPartidas {
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into Partidas(dniBlancas, dniNegras, dniTurno, estadoPartida)"
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into partidas(dniBlancas, dniNegras, dniTurno, estadoPartida)"
 					+ "values(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, p.getDniBlancas());
 			stmt.setInt(2, p.getDniNegras());
@@ -56,12 +56,12 @@ public class DatosPartidas {
 		PreparedStatement stmt=null;
 		Partida partidaActual=null;
 		try{
-			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from Partidas where dniBlanca=? and dniNegra=?");
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from partidas where dniBlancas=? and dniNegras=?");
 			stmt.setInt(1, dniBlancas);
 			stmt.setInt(2, dniNegras);
 			rs=stmt.executeQuery();
 			
-			if(rs!=null && rs.next()){
+			if(rs!=null/*&& rs.next()*/){
 				partidaActual= new Partida();
 				partidaActual.setDniBlancas(rs.getInt("dniBlancas"));
 				partidaActual.setDniNegras(rs.getInt("dniNegras"));

@@ -22,14 +22,17 @@ public class DatosPartidas {
 			stmt.setInt(2, p.getDniNegras());
 			stmt.setInt(3, p.getDniTurno());
 			stmt.setString(4, p.getEstado());
+			stmt.execute();
+			
 			rs=stmt.getGeneratedKeys();
 			
 			if(rs!=null && rs.next()){
 				p.setIdPartida(rs.getInt("idPartida"));
 				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
-				return p.getIdPartida();
+
+				//return p.getIdPartida();
 			}
-			else return 0;
+			else return p.getIdPartida();
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block
@@ -56,12 +59,12 @@ public class DatosPartidas {
 		PreparedStatement stmt=null;
 		Partida partidaActual=null;
 		try{
-			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from Partidas where dniBlanca=? and dniNegra=?");
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from partidas where dniBlancas=? and dniNegras=?");
 			stmt.setInt(1, dniBlancas);
 			stmt.setInt(2, dniNegras);
 			rs=stmt.executeQuery();
 			
-			if(rs!=null && rs.next()){
+			if(rs!=null/*&& rs.next()*/){
 				partidaActual= new Partida();
 				partidaActual.setDniBlancas(rs.getInt("dniBlancas"));
 				partidaActual.setDniNegras(rs.getInt("dniNegras"));

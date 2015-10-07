@@ -182,7 +182,6 @@ public class DatosPosicion {
 		}
 	}
 
-=======
 	
 	
 	
@@ -274,5 +273,5 @@ public class DatosPosicion {
 	     }
 		 return posiciones;
 		}
-//>>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
+
 }

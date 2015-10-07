@@ -643,15 +643,11 @@ public class InterfazJuego extends JFrame {
 		this.cargarPosicionFichas();
 	}
 	
-<<<<<<< HEAD
 	private void Guardar()
 	{
 		oControl.guardar();
 	}
 	
-}
-=======
->>>>>>> branch 'master' of https://github.com/josedagrava/TPJavaUtn.git
 
 	private void clickBotonMover(){
 		Boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);

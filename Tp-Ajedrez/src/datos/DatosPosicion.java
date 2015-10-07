@@ -107,7 +107,6 @@ public class DatosPosicion {
 		Reina.posicionInicial(colPosiciones, id);
 		
 	}
-//<<<<<<< HEAD
 
 	public void guardar() {
 		

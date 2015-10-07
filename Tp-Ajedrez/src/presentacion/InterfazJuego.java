@@ -292,7 +292,6 @@ import javax.swing.JButton;
 import javax.swing.JSeparator;
 
 import java.awt.Color;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -313,7 +312,7 @@ public class InterfazJuego extends JFrame {
 	private JTextField txtDniNegras;
 	private JTextField txtNomyApeTurno;
 	private JTextField txtMovOrigen;
-	private JTextField textField;
+	private JTextField txtMovDestino;
 	private Controladora oControl = new Controladora();
 	private Partida partidaActual=null;
 	private JTable tblPosiciones;
@@ -491,10 +490,16 @@ public class InterfazJuego extends JFrame {
 		
 		JLabel lblPosicionDestino = new JLabel("Posicion destino:");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtMovDestino = new JTextField();
+		txtMovDestino.setColumns(10);
 		
 		JButton btnMover = new JButton("Mover");
+		btnMover.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				clickBotonMover();
+			}
+		});
 		
 		JLabel lblMovimientoDeFichas = new JLabel("Movimiento de Fichas");
 		GroupLayout gl_panel = new GroupLayout(panel);
@@ -509,7 +514,7 @@ public class InterfazJuego extends JFrame {
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(lblPosicionDestino)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField, 0, 0, Short.MAX_VALUE)))
+									.addComponent(txtMovDestino, 0, 0, Short.MAX_VALUE)))
 							.addContainerGap())
 						.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
 							.addComponent(lblMovOrigen, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -532,7 +537,7 @@ public class InterfazJuego extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPosicionDestino)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtMovDestino, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnMover)
 					.addContainerGap())
@@ -624,6 +629,32 @@ public class InterfazJuego extends JFrame {
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
 		partidaActual.setIdPartida(oControl.addPartida(partidaActual));
 		this.cargarPosicionFichas();
+	}
+	
+
+	private void clickBotonMover(){
+		Boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
+		
+			if (movValido){
+					Boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
+				
+					if(continuaJuego){
+					
+						oControl.modificarTurno(partidaActual);
+						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
+						String [][] posiciones;
+						posiciones = oControl.devolverPosiciones();
+						setModelo(posiciones);
+					}
+					
+					else{
+						JOptionPane.showMessageDialog(null, oControl.getJugador(partidaActual.getDniTurno()) + "Ganaste!!");
+						}
+			}
+			else {
+				JOptionPane.showMessageDialog(null,"Movimiento invalido" ,"Mensaje de advertencia",JOptionPane.WARNING_MESSAGE);
+				
+			}
 	}
 	
 }

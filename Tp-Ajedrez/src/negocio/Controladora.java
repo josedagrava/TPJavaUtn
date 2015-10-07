@@ -10,12 +10,14 @@ import java.util.HashMap;
 public class Controladora {
 		
 	//Metodos de DatosJugadores
-	
+	DatosJugadores oDatos = new DatosJugadores();
+	DatosPosicion oDatosPosicion= new DatosPosicion();
+	DatosPartidas oDatosPartida = new DatosPartidas();
 	/**
 	 * retorna el Nombre y Apellido del jugador que tiene el turno que fue buscado en la base de datos.
 	 * */
 	public String getJugador(int dniTurno) {
-		DatosJugadores oDatos = new DatosJugadores();
+		
 		return oDatos.getNomyApe(dniTurno);
 		
 	}
@@ -39,7 +41,7 @@ public class Controladora {
 	 * Agrega una partida nueva
 	 * */
 	public int addPartida(Partida partidaActual) {
-		DatosPartidas oDatosPartida = new DatosPartidas();
+		
 		int idpartida= oDatosPartida.add(partidaActual);
 		
 		return idpartida;
@@ -90,6 +92,97 @@ public class Controladora {
 		DatosPartidas oDatosPartida = new DatosPartidas();
 		oDatosPartida.delete(partidaActual);
 		
+	}
+	
+	
+
+	public Boolean validarMovimiento(String origen,String destino,Partida partidaActual){
+		Boolean v;
+		Posicion posInicio;
+		Posicion posDestino;
+		v=Boolean.TRUE;
+		
+		
+		if (origen!= destino){
+			
+			posInicio= oDatosPosicion.devolverPosicion(origen);
+			Pieza oPieza=null;
+			
+			switch(posInicio.getTipoPieza()){
+			
+
+			case "Peon": oPieza= new Peon();
+			case "Caballo": oPieza= new Caballo();
+			case "Alfil": oPieza= new Alfil();
+			case "Torre": oPieza= new Torre();
+			case "Reina":oPieza= new Reina();
+			case "Rey":	oPieza= new Rey();
+			
+			}
+			
+			v= oPieza.esMovimientoValido(origen,destino);
+			
+				if (v== Boolean.TRUE){
+					
+					String color;
+					if(partidaActual.getDniBlancas()== partidaActual.getDniTurno()){
+						color="Blanco";}
+					else{
+						color="Negro";
+					}
+				   
+					if (posInicio.getColor()!= color){
+				    	  v=Boolean.FALSE;
+				    	  
+				    	  if(v==Boolean.TRUE){
+				    		 
+				    		  posDestino=oDatosPosicion.devolverPosicion(destino);
+				    		  
+				    		  if (posDestino.getColor()==color){
+				    			  
+				    			  v=Boolean.FALSE;
+				    		  }
+				    	  }
+				    }
+				
+				}
+			 
+		}
+		else{
+			v= Boolean.FALSE;
+			
+		}
+		
+		return v;
+		
+		
+		
+		
+	
+}
+	
+	public Boolean generarMovimiento(String origen, String destino){
+		
+		Posicion posInicio;
+		
+		posInicio= oDatosPosicion.devolverPosicion(origen);
+		
+		Boolean v=oDatosPosicion.guardarMovimiento(posInicio, destino);
+		
+		return v;
+	}
+	
+	public void modificarTurno(Partida partidaActual){
+		oDatosPartida.modificarTurno(partidaActual);
+		
+	}
+	
+	public String [][] devolverPosiciones(){
+		
+		String [][] posiciones;
+		
+		posiciones= oDatosPosicion.devolverPosiciones();
+		return posiciones;
 	}
 
 }

@@ -104,4 +104,13 @@ public class DatosPartidas {
 	}
 	
 
+	public void modificarTurno(Partida partidaActual){
+		if(partidaActual.getDniTurno()== partidaActual.getDniBlancas()){
+			partidaActual.setDniTurno(partidaActual.getDniNegras());
+		}
+		else{
+		partidaActual.setDniTurno(partidaActual.getDniBlancas());
+		}
+	}
+
 }

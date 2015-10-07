@@ -98,13 +98,15 @@ public class Controladora {
 
 	public Boolean validarMovimiento(String origen,String destino,Partida partidaActual){
 		Boolean v;
+		Pieza piezaInicio;
+		Pieza piezaDestino;
 		Posicion posInicio;
-		Posicion posDestino;
 		v=Boolean.TRUE;
 		
 		
 		if (origen!= destino){
 			
+			piezaInicio= oDatosPosicion.devolverPieza(origen);
 			posInicio= oDatosPosicion.devolverPosicion(origen);
 			Pieza oPieza=null;
 			
@@ -131,14 +133,14 @@ public class Controladora {
 						color="N";
 					}
 				   
-					if (posInicio.getColor()!= color){
+					if (piezaInicio.getColor()!= color){
 				    	  v=Boolean.FALSE;
 				    	  
 				    	  if(v==Boolean.TRUE){
 				    		 
-				    		  posDestino=oDatosPosicion.devolverPosicion(destino);
+				    		  piezaDestino=oDatosPosicion.devolverPieza(destino);
 				    		  
-				    		  if (posDestino.getColor()==color){
+				    		  if (piezaDestino.getColor()==color){
 				    			  
 				    			  v=Boolean.FALSE;
 				    		  }

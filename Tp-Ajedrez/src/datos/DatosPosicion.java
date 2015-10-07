@@ -228,21 +228,32 @@ public class DatosPosicion {
 		 return v;
 
 		 	 }
-	 
+	 public Posicion devolverPosicion(String origen){
+		 Posicion pos=null;
 		 
-	 public Posicion devolverPosicion( String origen){
-		 Posicion po;
-		 po=null;
-
-		 for (Posicion p : colPosiciones.keySet()) {
+		 for(Posicion p: colPosiciones.keySet()){
+			 
+			 if(p.getPosicion()==origen){
+				 pos=p;
+			 }			 
+		 }
+		 return pos;
+	 }
+		 
+	 public Pieza devolverPieza( String origen){
+		 Pieza pie= null;
+		 
+		 for (Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
+		     Posicion key = entry.getKey();
+		     Pieza p= entry.getValue();
 		     
-			if(p.getPosicion()==origen){
-				 po=p;
+			 if(key.getPosicion()==origen){
+				 pie=p;
 			 }
 		 
 		 }
 		
-		 return po;
+		 return pie;
 		 
 	 }
 	 

@@ -9,7 +9,7 @@ public class FactoryConexion {
     private String port= "3306";
     private String user= "java";
     private String pass="1234";
-    private String db= "java";
+    private String db= "ajedrez";
     
     private Connection conn;
     private int cantCon;
@@ -39,7 +39,7 @@ public class FactoryConexion {
    public Connection getConn(){
 	   try{
 		   if(conn==null || conn.isClosed()){
-			   conn= DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/"+db+"?user="+user+"&password="+pass);
+			   conn= DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/"+db+"?user=root");//+user+"&password="+pass);
 				cantCon++;
 		   }
 	   }catch(SQLException e){

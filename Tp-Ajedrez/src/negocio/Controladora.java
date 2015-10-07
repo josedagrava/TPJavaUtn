@@ -131,7 +131,7 @@ public class Controladora {
 						color="N";
 					}
 				   
-					if (posInicio.getColor()!= color){
+					if (piezaInicio.getColor()!= color){
 				    	  v=Boolean.FALSE;
 				    	  
 				    	  if(v==Boolean.TRUE){

@@ -16,7 +16,7 @@ public class DatosPartidas {
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into Partidas(dniBlancas, dniNegras, dniTurno, estadoPartida)"
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into partidas(dniBlancas, dniNegras, dniTurno, estadoPartida)"
 					+ "values(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, p.getDniBlancas());
 			stmt.setInt(2, p.getDniNegras());
@@ -44,7 +44,7 @@ public class DatosPartidas {
 			}
 			FactoryConexion.getInstancia().releaseConn();
 		}
-		return 0;
+		return p.getIdPartida();
 	}
 	
 	/**

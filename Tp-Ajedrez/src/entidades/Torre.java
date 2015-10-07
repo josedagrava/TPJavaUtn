@@ -28,9 +28,9 @@ public class Torre extends Pieza {
 	}
 
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
-		colPosiciones.put(new Posicion(id, "A8", true), new Torre("B"));
-		colPosiciones.put(new Posicion(id, "H8", true), new Torre("B"));
-		colPosiciones.put(new Posicion(id, "A1", true), new Torre("N"));
-		colPosiciones.put(new Posicion(id, "H1", true), new Torre("N"));
+		colPosiciones.put(new Posicion(id,"Torre", "A8", true), new Torre("B"));
+		colPosiciones.put(new Posicion(id,"Torre", "H8", true), new Torre("B"));
+		colPosiciones.put(new Posicion(id, "Torre","A1", true), new Torre("N"));
+		colPosiciones.put(new Posicion(id,"Torre", "H1", true), new Torre("N"));
 	}
 }

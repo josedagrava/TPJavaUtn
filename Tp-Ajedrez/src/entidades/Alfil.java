@@ -34,9 +34,9 @@ public class Alfil extends Pieza {
 	}
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
 		
-		colPosiciones.put(new Posicion(id, "C8", true), new Alfil("B"));
-		colPosiciones.put(new Posicion(id, "F8", true), new Alfil("B"));
-		colPosiciones.put(new Posicion(id, "C1", true), new Alfil("N"));
-		colPosiciones.put(new Posicion(id, "F1", true), new Alfil("N"));
+		colPosiciones.put(new Posicion(id,"Alfil" ,"C8", true), new Alfil("B"));
+		colPosiciones.put(new Posicion(id,"Alfil" ,"F8", true), new Alfil("B"));
+		colPosiciones.put(new Posicion(id,"Alfil" ,"C1", true), new Alfil("N"));
+		colPosiciones.put(new Posicion(id,"Alfil" ,"F1", true), new Alfil("N"));
 	}
 }

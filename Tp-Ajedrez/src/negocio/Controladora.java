@@ -120,15 +120,15 @@ public class Controladora {
 			
 			}
 			
-			v= oPieza.esMovimientoValido(origen,destino);
+			v= oPieza.EsMovimientoValido(origen,destino);
 			
 				if (v== Boolean.TRUE){
 					
 					String color;
 					if(partidaActual.getDniBlancas()== partidaActual.getDniTurno()){
-						color="Blanco";}
+						color="B";}
 					else{
-						color="Negro";
+						color="N";
 					}
 				   
 					if (posInicio.getColor()!= color){

@@ -36,8 +36,8 @@ public class Rey extends Pieza {
 	
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
 		
-		colPosiciones.put(new Posicion(id, "E8", true), new Rey("B"));
-		colPosiciones.put(new Posicion(id,"E1",true), new Rey("N"));
+		colPosiciones.put(new Posicion(id,"Rey","E8", true), new Rey("B"));
+		colPosiciones.put(new Posicion(id,"Rey","E1",true), new Rey("N"));
 		
 	}
 }

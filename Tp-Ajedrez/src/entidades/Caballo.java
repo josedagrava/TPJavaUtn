@@ -38,9 +38,9 @@ public class Caballo extends Pieza{
 	
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
 			
-		colPosiciones.put(new Posicion(id, "B8", true), new Caballo("B"));
-		colPosiciones.put(new Posicion(id, "G8", true), new Caballo("B"));
-		colPosiciones.put(new Posicion(id, "B1", true), new Caballo("N"));
-		colPosiciones.put(new Posicion(id, "G1", true), new Caballo("N"));
+		colPosiciones.put(new Posicion(id,"Caballo", "B8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id,"Caballo", "G8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id,"Caballo", "B1", true), new Caballo("N"));
+		colPosiciones.put(new Posicion(id,"Caballo","G1", true), new Caballo("N"));
 	}
 }

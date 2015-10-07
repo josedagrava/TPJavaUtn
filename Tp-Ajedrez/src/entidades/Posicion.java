@@ -46,12 +46,12 @@ public class Posicion {
 	}
 	
 	public Posicion(){}
-	public Posicion(int id,/* String tipo,*/ String posi,boolean esta, String color){
+	public Posicion(int id, String tipo, String posi,boolean esta){
 		
 		this.setIdPartida(id);
 		this.setEstaEnTablero(esta);
 		this.setPosicion(posi);
-		this.setColor(color);
-		//this.setTipoPieza(tipo);
+	
+		this.setTipoPieza(tipo);
 	}
 }

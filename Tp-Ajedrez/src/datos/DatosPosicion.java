@@ -117,20 +117,58 @@ public class DatosPosicion {
 	{
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
-			Posicion key = entry.getKey();
-			Pieza value = entry.getValue();
-			
-			if(key==null)
-			 {
-				 insertar(key, value);
-			 }
-			 else
-			 {
-				 actualizar(key);
-			 }
+			if(entry.getValue()!=null)
+			{
+				if(consultar(entry.getKey()))
+				{
+					actualizar(entry.getKey());
+				}
+				else
+				{
+					insertar(entry.getKey(), entry.getValue());
+				}
+			}
 		}
 	}
-	
+
+	public boolean consultar(Posicion p)
+	{
+		boolean existe=true;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?"
+					+ "values(?)");
+			stmt.setInt(1, p.getIdPartida());
+			rs= stmt.executeQuery();
+			if (rs==null)
+			{
+				existe=false;
+			}
+			else
+			{
+				existe=true;
+			}
+		}
+			
+		
+		catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			try{
+				if(rs!=null ) rs.close();
+				if(stmt != null) stmt.close();
+				}
+			catch(SQLException e){
+				
+			}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+		return existe;
+	}
+
 	public int insertar(Posicion p, Pieza pi)
 	{
 		ResultSet rs=null;
@@ -169,6 +207,7 @@ public class DatosPosicion {
 		return 0;
 	}
 	
+	
 	public void actualizar(Posicion p)
 	{
 		ResultSet rs=null;
@@ -177,9 +216,9 @@ public class DatosPosicion {
 		try{
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("update posicion set posicion=? where idPartida=?"
 					+ "values(?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-			
 			stmt.setString(1, p.getPosicion());
 			stmt.setInt(2, p.getIdPartida());
+			rs= stmt.executeQuery();
 			}
 		
 		catch(SQLException e){

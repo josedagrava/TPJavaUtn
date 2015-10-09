@@ -31,8 +31,9 @@ public class Peon extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
-		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE 
+		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE
 		
+		boolean s=false, respuesta=false, d1=false, d2=false,d3=false,d4=false,d5=false, d6=false,d7=false,d8=false;
 		char letraInicial = posInicial.charAt(0);	
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -46,24 +47,75 @@ public class Peon extends Pieza{
 		int diferenciaL= letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))  
+		s=super.EsMovimientoValido(posInicial, posFinal);
+		
+		// BLANCAS
+		
+		if((diferenciaL==1) && (diferenciaN==1))
 		{
-			return true;
+			d1=true;
+		}
+		
+		if((diferenciaL==1) && (diferenciaN==-1))
+		{
+			d2=true;
+		}
+		if((diferenciaL==0) && (diferenciaN==1))
+		{
+			d3=true;
+		}
+		if((numeroInicio==2 || numeroInicio==7))
+		{
+			d4=true;
+			if((diferenciaN==2) || (diferenciaN==-2))
+			d4=true;
+		}
+		
+		//NEGRAS
+		
+		if((diferenciaL==-1) && (diferenciaN==1))
+		{
+			d5=true;
+		}
+		if((diferenciaL==1) && (diferenciaN==-1))
+		{
+			d6=true;
+		}
+		if((diferenciaL==1) && (diferenciaN==0))
+		{
+			d7=true;
+		}
+		
+		
+		
+		if((s) && (d4) && ((d1||d2) || (d3) || (d4)))
+		{
+			respuesta=true;
+		}
+		else if((s) && ((d5||d6) || (d7) || (d4)))
+				{
+			respuesta= true;
+				}
+		
+		return respuesta;
+		
+		
+		
+		/*if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (numeroInicio==2 || numeroInicio==7))  
+		{
+			respuesta= true;
 		}
 		else
 		{
 			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
 			{
-				return true;
+				respuesta= true;
 			}
 			else
 			{
-				return false;
-		}
-		
-		
-		
-	}
+				respuesta= false;
+		}	
+	}*/
 	}
 }
 

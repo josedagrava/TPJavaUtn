@@ -6,6 +6,7 @@ public class Alfil extends Pieza {
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
+		boolean s=false,d1=false,d2=false, respuesta=false;
 		char letraInicial = posInicial.charAt(0);
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -18,14 +19,26 @@ public class Alfil extends Pieza {
 		int diferenciaL=letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if((diferenciaL==diferenciaN) || (diferenciaL==-diferenciaN) && (super.EsMovimientoValido(posInicial, posFinal)))
+		s=super.EsMovimientoValido(posInicial, posFinal);
+		if(diferenciaL==diferenciaN)
 		{
-			return true;
+			d1=true;
+		}
+		
+		if(diferenciaL==-diferenciaN)
+		{
+			d2=true;
+		}
+		
+		if((s) && ((d1) || (d2)))
+		{
+			respuesta=true;
 		}
 		else
 		{
-			return false;
+			respuesta=false;
 		}
+		return respuesta;
 	}
 
 	public Alfil(){}

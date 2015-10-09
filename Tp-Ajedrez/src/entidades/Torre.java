@@ -6,20 +6,33 @@ public class Torre extends Pieza {
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
+		boolean respuesta=false, d1=false, d2=false, s=false;
 		char letraInicial = posInicial.charAt(0);
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
 		char numeroFinal = posFinal.charAt(1);
 		
-		
-		if(((letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		s=super.EsMovimientoValido(posInicial, posFinal);
+		if(letraFinal==letraInicial)
 		{
-			return true;
+			d1=true;
+		}
+		if(numeroFinal==numeroInicial)
+		{
+			d2=true;
+		}
+		
+		if((s) && (d1||d2))
+		//if(((letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		{
+			respuesta= true;
 		}
 		else
 		{
-			return false;
+			respuesta= false;
 		}
+		
+		return respuesta; 
 	}
 	
 	public Torre(){}

@@ -6,6 +6,7 @@ public class Caballo extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
+		boolean respuesta=false;
 		char letraInicial = posInicial.charAt(0);
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -22,13 +23,13 @@ public class Caballo extends Pieza{
 		
 		if ((resultado==5) &&(super.EsMovimientoValido(posInicial, posFinal)))
 		{
-			return true;
+			respuesta= true;
 		}
 		else
 		{
-			return false;
+			respuesta= false;
 		}
-		
+		return respuesta;
 	}
 
 	public Caballo(){}

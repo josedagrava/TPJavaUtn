@@ -11,7 +11,7 @@ public class Reina extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
-		
+		boolean respuesta=false;
 		char letraInicial = posInicial.charAt(0);
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -27,12 +27,14 @@ public class Reina extends Pieza{
 		
 		if(((diferencia1==diferencia2) || (diferencia1==-diferencia2) || (letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.EsMovimientoValido(posInicial, posFinal)))
 		{
-			return true;
+			respuesta= true;
 		}
 		else
 		{
-			return false;
+			respuesta= false;
 		}
+		
+		return respuesta;
 		
 		
 	}

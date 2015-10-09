@@ -204,20 +204,22 @@ public class DatosPosicion {
 		Posicion po= null;
 		Pieza pi=null;
 		Boolean v=Boolean.TRUE;
-		Pieza piDest=null;
+		
 		
 		po= this.devolverPosicion(destino);
-		colPosiciones.remove(this.devolverPosicion(destino));
+		
 		pi=colPosiciones.get(posInicio);
 		colPosiciones.remove(posInicio);
+		Posicion poNueva= posInicio;
+		poNueva.setPosicion(destino);
 		
 		if(colPosiciones.containsKey(po)){
 			if (colPosiciones.get(po) instanceof Rey) {
 				v= Boolean.FALSE;
 			}
 		}
-		colPosiciones.put(po, pi);
-		
+		colPosiciones.put(poNueva, pi);
+		colPosiciones.remove(po);//this.devolverPosicion(destino));
 		
 		 /*for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
 			     Posicion key = entry.getKey();
@@ -258,6 +260,7 @@ public class DatosPosicion {
 		 return v;
 
 		 	 }
+	
 	 public Posicion devolverPosicion(String origen){
 		 Posicion pos=null;
 		 

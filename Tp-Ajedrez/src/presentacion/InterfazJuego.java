@@ -307,14 +307,16 @@ public class InterfazJuego extends JFrame {
 			if(partidaActual==null) {		
 				this.iniciarPartida();
 				this.determinarTurno();
+				this.Guardar();
 			}
 			else{
 				int opcion= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
 						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if(opcion==JOptionPane.OK_OPTION){
 					oControl.cargarHashMap(partidaActual.getIdPartida());
-					this.cargarPosicionFichas();
 					this.determinarTurno();
+					this.cargarPosicionFichas();
+					
 				}
 				else {
 						opcion= (JOptionPane.showConfirmDialog(contentPane, "Eliminar la partida anterior y empezar una nueva?", "Eliminar partida "
@@ -405,10 +407,9 @@ public class InterfazJuego extends JFrame {
 					
 						oControl.modificarTurno(partidaActual);
 						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
-						String[][] posiciones;
-					
-						posiciones = oControl.getDatosPosiciones();
-						setModelo(posiciones);
+						String[][] posiciones= oControl.getDatosPosiciones();
+						this.setModelo(posiciones);
+						//this.cargarPosicionFichas();
 					}
 					
 					else{

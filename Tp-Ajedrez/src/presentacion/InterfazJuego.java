@@ -66,8 +66,9 @@ public class InterfazJuego extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazJuego() {
+		setTitle("\"EL\" Ajedrez");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 561, 535);
+		setBounds(100, 100, 585, 640);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(169, 169, 169));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -177,19 +178,22 @@ public class InterfazJuego extends JFrame {
 											.addComponent(lblTurno)
 											.addPreferredGap(ComponentPlacement.RELATED)
 											.addComponent(txtNomyApeTurno, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE))
-										.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-											.addComponent(tblPosiciones, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(lblPosicionBlancas)
-												.addGap(29)
-												.addComponent(lblPosicionNegras))
-											.addGroup(gl_contentPane.createSequentialGroup()
-												.addComponent(panel, GroupLayout.PREFERRED_SIZE, 169, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED))))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+												.addComponent(tblPosiciones, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addComponent(lblPosicionBlancas)
+													.addGap(29)
+													.addComponent(lblPosicionNegras))
+												.addGroup(gl_contentPane.createSequentialGroup()
+													.addGap(11)
+													.addComponent(panel, GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
+													.addPreferredGap(ComponentPlacement.RELATED)))
+											.addGap(41)))
 									.addGap(10)
 									.addComponent(lblTablero, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE))))
 						.addComponent(separator, GroupLayout.PREFERRED_SIZE, 472, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(32, Short.MAX_VALUE))
+					.addGap(32))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -219,7 +223,7 @@ public class InterfazJuego extends JFrame {
 										.addComponent(lblPosicionBlancas, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(lblPosicionNegras))))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(tblPosiciones, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+							.addComponent(tblPosiciones, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(panel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(64))
@@ -303,7 +307,6 @@ public class InterfazJuego extends JFrame {
 			if(partidaActual==null) {		
 				this.iniciarPartida();
 				this.determinarTurno();
-				
 			}
 			else{
 				int opcion= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
@@ -323,9 +326,7 @@ public class InterfazJuego extends JFrame {
 						this.determinarTurno();
 						}
 						else{
-							// TODO Preguntar como cerrar la ventana principal
-							//cerrar el juego.
-							
+							System.exit(0);
 						}
 				}
 			}
@@ -335,8 +336,8 @@ public class InterfazJuego extends JFrame {
 			int op= JOptionPane.showConfirmDialog(contentPane, "Estas saliendo de la partida actual. Desea guardar"
 					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if(op==JOptionPane.YES_OPTION){
-				// TODO declarar la llamada al metodo
-				//clickBotonGuardar();
+				
+				this.Guardar();
 			}
 		}
 	}
@@ -363,11 +364,20 @@ public class InterfazJuego extends JFrame {
 	/**
 	 * Setea el modelo en la jTable
 	 * */
-	private void setModelo(String [][] posiciones){
+	private void setModelo(String[][] posiciones){
 		
-		DefaultTableModel modelo= (DefaultTableModel)tblPosiciones.getModel();		
-		modelo.addRow(posiciones);
+		DefaultTableModel modelo =(DefaultTableModel)tblPosiciones.getModel();
+		int tam=modelo.getRowCount();
+		for (int i = 0; i < tam ; i++) {
+			modelo.removeRow(0);
+		}
+		
+		for(int i=0; i<16 ;i++){
+			
+			modelo.addRow(posiciones[i]);
+		}
 		tblPosiciones.setModel(modelo);
+		
 	}
 	/**
 	 * instancia la partida actual y llama a metodo cargaPosicionesfichas
@@ -395,8 +405,9 @@ public class InterfazJuego extends JFrame {
 					
 						oControl.modificarTurno(partidaActual);
 						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
-						String [][] posiciones;
-						posiciones = oControl.devolverPosiciones();
+						String[][] posiciones;
+					
+						posiciones = oControl.getDatosPosiciones();
 						setModelo(posiciones);
 					}
 					

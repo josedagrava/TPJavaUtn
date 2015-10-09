@@ -11,22 +11,22 @@ public class Peon extends Pieza{
 
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id){
 		
-		colPosiciones.put(new Posicion(id,"Peon", "A7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "B7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "C7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "D7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "E7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id, "Peon","F7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "G7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "H7", true), new Peon("B"));
-		colPosiciones.put(new Posicion(id,"Peon", "A2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id,"Peon", "B2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id, "Peon","C2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id, "Peon","D2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id,"Peon", "E2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id,"Peon", "F2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id,"Peon", "G2", true), new Peon("N"));
-		colPosiciones.put(new Posicion(id, "Peon","H2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P", "A7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "B7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "C7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "D7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "E7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P","F7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "G7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "H7", true), new Peon("B"));
+		colPosiciones.put(new Posicion(id,"P", "A2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P", "B2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P","C2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P","D2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P", "E2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P", "F2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P", "G2", true), new Peon("N"));
+		colPosiciones.put(new Posicion(id,"P","H2", true), new Peon("N"));
 	}
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)

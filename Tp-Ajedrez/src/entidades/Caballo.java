@@ -35,12 +35,14 @@ public class Caballo extends Pieza{
 	public Caballo(String col){
 		this.setColor(col);
 	}
-	
+	/*
+	 * instancia las posiciones iniciales del Caballo para las negrasa y blancas
+	 * **/
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
 			
-		colPosiciones.put(new Posicion(id,"Caballo", "B8", true), new Caballo("B"));
-		colPosiciones.put(new Posicion(id,"Caballo", "G8", true), new Caballo("B"));
-		colPosiciones.put(new Posicion(id,"Caballo", "B1", true), new Caballo("N"));
-		colPosiciones.put(new Posicion(id,"Caballo","G1", true), new Caballo("N"));
+		colPosiciones.put(new Posicion(id,"C", "B8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id,"C", "G8", true), new Caballo("B"));
+		colPosiciones.put(new Posicion(id,"C", "B1", true), new Caballo("N"));
+		colPosiciones.put(new Posicion(id,"C","G1", true), new Caballo("N"));
 	}
 }

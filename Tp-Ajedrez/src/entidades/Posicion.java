@@ -36,7 +36,9 @@ public class Posicion {
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		return super.equals(obj);
+		return (obj instanceof Posicion) && this.posicion.equalsIgnoreCase(((Posicion)obj).posicion);
+		
+		//return super.equals(obj);
 	}
 	
 	@Override

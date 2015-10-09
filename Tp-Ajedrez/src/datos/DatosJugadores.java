@@ -56,7 +56,7 @@ public class DatosJugadores {
 			stmt.setInt(1, dniTurno);
 			rs= stmt.executeQuery();
 			if(rs!=null && rs.next()){
-				retorno= (rs.getString("nombre")+ rs.getString("apellido"));
+				retorno= (rs.getString("nombre")+" "+ rs.getString("apellido"));
 			}
 			return retorno;
 		}catch(SQLException e){

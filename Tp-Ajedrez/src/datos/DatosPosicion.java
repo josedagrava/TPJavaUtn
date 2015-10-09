@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Iterator;
 
 import entidades.Alfil;
@@ -32,7 +31,7 @@ public class DatosPosicion {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
 		try{
-			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from Posicion where idPartida=?");
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from posicion where idPartida=?");
 			stmt.setInt(1, id);
 			
 			rs= stmt.executeQuery();
@@ -100,13 +99,18 @@ public class DatosPosicion {
 	public static void addPosicionesIniciales(int id) {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
-		Peon.posicionInicial(colPosiciones, id);
-		Alfil.posicionInicial(colPosiciones, id);
-		Torre.posicionInicial(colPosiciones, id);
-		Caballo.posicionInicial(colPosiciones, id);
-		Rey.posicionInicial(colPosiciones, id);
-		Reina.posicionInicial(colPosiciones, id);
-		
+		try{
+			Peon.posicionInicial(colPosiciones, id);
+			Alfil.posicionInicial(colPosiciones, id);
+			Torre.posicionInicial(colPosiciones, id);
+			Caballo.posicionInicial(colPosiciones, id);
+			Rey.posicionInicial(colPosiciones, id);
+			Reina.posicionInicial(colPosiciones, id);
+			
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	public void guardar() 
@@ -173,6 +177,7 @@ public class DatosPosicion {
 		try{
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("update posicion set posicion=? where idPartida=?"
 					+ "values(?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			
 			stmt.setString(1, p.getPosicion());
 			stmt.setInt(2, p.getIdPartida());
 			}
@@ -199,8 +204,22 @@ public class DatosPosicion {
 		Posicion po= null;
 		Pieza pi=null;
 		Boolean v=Boolean.TRUE;
+		Pieza piDest=null;
 		
-		 for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
+		po= this.devolverPosicion(destino);
+		colPosiciones.remove(this.devolverPosicion(destino));
+		pi=colPosiciones.get(posInicio);
+		colPosiciones.remove(posInicio);
+		
+		if(colPosiciones.containsKey(po)){
+			if (colPosiciones.get(po) instanceof Rey) {
+				v= Boolean.FALSE;
+			}
+		}
+		colPosiciones.put(po, pi);
+		
+		
+		 /*for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
 			     Posicion key = entry.getKey();
 			     
 			     Pieza value = entry.getValue();
@@ -213,8 +232,8 @@ public class DatosPosicion {
 			    	 colPosiciones.remove(value);
 			    	 
 			    	 }
-			     }
-		 
+			     }*/
+		 /*
 		 po.setPosicion(destino);
 		 colPosiciones.put(po, pi);
 		 
@@ -234,7 +253,7 @@ public class DatosPosicion {
 		    	 colPosiciones.remove(value);
 		    	 
 		    	 }
-		     }
+		     }*/
 		 
 		 return v;
 
@@ -244,22 +263,24 @@ public class DatosPosicion {
 		 
 		 for(Posicion p: colPosiciones.keySet()){
 			 
-			 if(p.getPosicion()==origen){
+			 if(p.getPosicion().equalsIgnoreCase(origen)){
 				 pos=p;
+				 break;
 			 }			 
 		 }
 		 return pos;
 	 }
 		 
-	 public Pieza devolverPieza( String origen){
+	 public Pieza devolverPieza(String origen){
 		 Pieza pie= null;
 		 
 		 for (Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
 		     Posicion key = entry.getKey();
 		     Pieza p= entry.getValue();
 		     
-			 if(key.getPosicion()==origen){
+			 if(key.getPosicion().equalsIgnoreCase(origen)){
 				 pie=p;
+				 break;
 			 }
 		 
 		 }
@@ -268,31 +289,4 @@ public class DatosPosicion {
 		 
 	 }
 	 
-	 
-	 public String [][] devolverPosiciones(){
-		 
-		 String [][] posiciones= null;
-		 int n=0;
-		 int m=0;
-		 
-		 for (Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
-		     Posicion key = entry.getKey();
-		     Pieza p= entry.getValue();
-		     
-		     String pos= key.getTipoPieza() + key.getPosicion();
-		     
-		     if(p.getColor()=="B"){
-		    	
-		    	 posiciones[n][1]=pos;
-			     n++;
-		     }
-		     else{
-		    	 posiciones[m][2]=pos;
-		    	 m++;
-		     }
-		    
-	     }
-		 return posiciones;
-		}
-
 }

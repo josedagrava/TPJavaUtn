@@ -39,8 +39,8 @@ public class Reina extends Pieza{
 
 	public static void posicionInicial(HashMap<Posicion, Pieza> colPosiciones, int id) {
 		
-		colPosiciones.put(new Posicion(id,"Reina","D8",true), new Reina("B"));
-		colPosiciones.put(new Posicion(id,"Reina","D1",true), new Reina("N"));
+		colPosiciones.put(new Posicion(id,"D","D8",true), new Reina("B"));
+		colPosiciones.put(new Posicion(id,"D","D1",true), new Reina("N"));
 		
 	}
 }

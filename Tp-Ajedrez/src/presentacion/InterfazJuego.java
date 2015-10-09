@@ -381,6 +381,7 @@ public class InterfazJuego extends JFrame {
 		tblPosiciones.setModel(modelo);
 		
 	}
+	
 	/**
 	 * instancia la partida actual y llama a metodo cargaPosicionesfichas
 	 * */
@@ -398,18 +399,16 @@ public class InterfazJuego extends JFrame {
 	
 
 	private void clickBotonMover(){
-		Boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
+		boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
 		
 			if (movValido){
-					Boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
+					boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
 				
 					if(continuaJuego){
 					
 						oControl.modificarTurno(partidaActual);
 						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
-						String[][] posiciones= oControl.getDatosPosiciones();
-						this.setModelo(posiciones);
-						//this.cargarPosicionFichas();
+						this.cargarPosicionFichas();
 					}
 					
 					else{

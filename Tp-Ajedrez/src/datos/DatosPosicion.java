@@ -112,24 +112,65 @@ public class DatosPosicion {
 		}
 	}
 
-	public void guardar() 
-	{
+	public void guardar() {
+		
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
-			Posicion key = entry.getKey();
-			Pieza value = entry.getValue();
-			
-			if(key==null)
-			 {
-				 insertar(key, value);
-			 }
-			 else
-			 {
-				 actualizar(key);
-			 }
+			if(entry.getValue()!=null)
+			{
+				
+				if(this.consultar(entry.getKey()))
+				{
+					actualizar(entry.getKey());
+				}
+				else
+				{
+					insertar(entry.getKey(), entry.getValue());
+				}
+				
+			}
 		}
 	}
-	
+
+	private boolean consultar(Posicion p) {
+		
+		boolean existe=true;
+		ResultSet rs=null;
+		PreparedStatement stmt=null;
+		
+		try{
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?"
+					+ "values(?)");
+			stmt.setInt(1, p.getIdPartida());
+			rs= stmt.executeQuery();
+			
+			if (rs==null)
+			{
+				existe=false;
+			}
+			else
+			{
+				existe=true;
+			}
+		}
+			
+		
+		catch(SQLException e){
+			// TODO Auto-generated catch block
+		}
+		finally{
+			try{
+				if(rs!=null ) rs.close();
+				if(stmt != null) stmt.close();
+				}
+			catch(SQLException e){
+				
+			}
+			FactoryConexion.getInstancia().releaseConn();
+		}
+		return existe;
+	}
+
 	public int insertar(Posicion p, Pieza pi)
 	{
 		ResultSet rs=null;
@@ -199,10 +240,10 @@ public class DatosPosicion {
 	
 	
 	
-	public Boolean guardarMovimiento(Posicion posInicio,String destino){
+	public boolean guardarMovimiento(Posicion posInicio,String destino){
 		Posicion po= null;
 		Pieza pi=null;
-		Boolean v=Boolean.TRUE;
+		boolean v=true;
 		
 		
 		po= this.devolverPosicion(destino);
@@ -214,7 +255,7 @@ public class DatosPosicion {
 		
 		if(colPosiciones.containsKey(po)){
 			if (colPosiciones.get(po) instanceof Rey) {
-				v= Boolean.FALSE;
+				v= false;
 			}
 		}
 		colPosiciones.put(poNueva, pi);

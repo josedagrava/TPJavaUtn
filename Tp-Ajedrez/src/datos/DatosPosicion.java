@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import entidades.Alfil;
 import entidades.Caballo;

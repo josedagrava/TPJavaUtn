@@ -129,7 +129,7 @@ public class Controladora {
 				break;
 			
 			}
-			v= oPieza.EsMovimientoValido(origen,destino);
+			v= oPieza.esMovimientoValido(origen,destino);
 			
 				if (v== true){
 					
@@ -140,19 +140,20 @@ public class Controladora {
 						color="N";
 					}
 				   
-					if (piezaInicio.getColor()!= color){
+					if (piezaInicio.getColor()== color){
 				    	  v=true;
 				    	  
 				    	  if(v==true){
 				    		 
 				    		  piezaDestino=oDatosPosicion.devolverPieza(destino);
 				    		  
-				    		  if (piezaDestino.getColor()==color){
+				    		  if (piezaDestino!=null && piezaDestino.getColor()==color){
 				    			  
 				    			  v=false;
 				    		  }
 				    	  }
 				    }
+					else v=false;
 				
 				}
 			 

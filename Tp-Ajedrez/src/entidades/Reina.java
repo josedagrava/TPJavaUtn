@@ -25,7 +25,7 @@ public class Reina extends Pieza{
 		int diferencia1=letraFin-letraInicio;
 		int diferencia2=numeroFin-numeroInicio;
 		
-		if(((diferencia1==diferencia2) || (diferencia1==-diferencia2) || (letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		if(((diferencia1==diferencia2) || (diferencia1==-diferencia2) || (letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.esMovimientoValido(posInicial, posFinal)))
 		{
 			return true;
 		}

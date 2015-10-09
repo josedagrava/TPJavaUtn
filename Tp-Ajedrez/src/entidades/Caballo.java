@@ -20,7 +20,7 @@ public class Caballo extends Pieza{
 		int fila = (letraFin-letraInicio)*(letraFin-letraInicio);
 		int resultado = columna + fila;
 		
-		if ((resultado==5) &&(super.EsMovimientoValido(posInicial, posFinal)))
+		if ((resultado==5) &&(super.esMovimientoValido(posInicial, posFinal)))
 		{
 			return true;
 		}

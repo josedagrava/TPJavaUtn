@@ -18,7 +18,7 @@ public class Alfil extends Pieza {
 		int diferenciaL=letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if((diferenciaL==diferenciaN) || (diferenciaL==-diferenciaN) && (super.EsMovimientoValido(posInicial, posFinal)))
+		if((diferenciaL==diferenciaN) || (diferenciaL==-diferenciaN) && (super.esMovimientoValido(posInicial, posFinal)))
 		{
 			return true;
 		}

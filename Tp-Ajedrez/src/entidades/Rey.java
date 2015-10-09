@@ -19,7 +19,7 @@ public class Rey extends Pieza {
 		
 		int diferencia1= letraInicio-letraFin;
 		int diferencia2= numeroInicio-numeroFin;
-		if(((diferencia1==1 || diferencia1==-1 || diferencia1==0) && (diferencia2==1 || diferencia2==-1 || diferencia2==0)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		if(((diferencia1==1 || diferencia1==-1 || diferencia1==0) && (diferencia2==1 || diferencia2==-1 || diferencia2==0)) && (super.esMovimientoValido(posInicial, posFinal)))
 		{
 			return true;
 		}

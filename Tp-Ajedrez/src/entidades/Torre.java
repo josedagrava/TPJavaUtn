@@ -12,7 +12,7 @@ public class Torre extends Pieza {
 		char numeroFinal = posFinal.charAt(1);
 		
 		
-		if(((letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		if(((letraFinal==letraInicial) || (numeroFinal==numeroInicial)) && (super.esMovimientoValido(posInicial, posFinal)))
 		{
 			return true;
 		}

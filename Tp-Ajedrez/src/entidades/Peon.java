@@ -46,13 +46,13 @@ public class Peon extends Pieza{
 		int diferenciaL= letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))  
+		if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (super.esMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))  
 		{
 			return true;
 		}
 		else
 		{
-			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
+			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.esMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
 			{
 				return true;
 			}

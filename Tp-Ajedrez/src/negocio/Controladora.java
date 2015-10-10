@@ -42,9 +42,12 @@ public class Controladora {
 	 * Elimina una partida ya creada.
 	 * */
 	public void deletePartida(Partida partidaActual) {		
-		
-		oDatosPartida.delete(partidaActual);
-		
+		try{
+			oDatosPartida.delete(partidaActual);
+		}catch(Exception e)
+		{
+			
+		}
 	}
 	
 	
@@ -52,9 +55,16 @@ public class Controladora {
 	 * Agrega una partida nueva
 	 * */
 	public int addPartida(Partida partidaActual) {
+		int idpartida = 0;
 		
-		int idpartida= oDatosPartida.add(partidaActual);
-		
+		try{
+			idpartida = oDatosPartida.add(partidaActual);
+			return idpartida;
+		}catch(Exception e)
+		{
+			
+			
+		}
 		return idpartida;
 	}
 	

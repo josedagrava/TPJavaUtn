@@ -30,6 +30,7 @@ public class DatosPosicion {
 		colPosiciones= new HashMap<Posicion, Pieza>();
 		
 		try{
+			
 			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from posicion where idPartida=?");
 			stmt.setInt(1, id);
 			
@@ -48,6 +49,7 @@ public class DatosPosicion {
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		finally{
 			try{
@@ -57,6 +59,7 @@ public class DatosPosicion {
 			catch(SQLException e){
 				// TODO Auto-generated catch block
 			}
+			FactoryConexion.getInstancia().releaseConn();
 		}		
 	}
 	
@@ -113,7 +116,7 @@ public class DatosPosicion {
 	}
 
 	public void guardar() {
-		
+	
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
 			if(entry.getValue()!=null)
@@ -139,19 +142,17 @@ public class DatosPosicion {
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?"
-					+ "values(?)");
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM posicion where idPartida=?");
+			
 			stmt.setInt(1, p.getIdPartida());
+			
 			rs= stmt.executeQuery();
 			
-			if (rs==null)
+			if(rs!=null & rs.next())
 			{
-				existe=false;
+				existe = true;
 			}
-			else
-			{
-				existe=true;
-			}
+			else existe= false;
 		}
 			
 		
@@ -171,34 +172,27 @@ public class DatosPosicion {
 		return existe;
 	}
 
-	public int insertar(Posicion p, Pieza pi)
+	public void insertar(Posicion p, Pieza pi)
 	{
-		ResultSet rs=null;
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into posicion(tipoPieza, posicion, estaEnTablero, color)"
-					+ "values(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into posicion(tipoPieza, posicion, color, idPartida)"
+					+ "values(?,?,?,?)");
 			stmt.setString(1, p.getTipoPieza());
 			stmt.setString(2, p.getPosicion());
-			stmt.setBoolean(3, p.isEstaEnTablero());
-			stmt.setString(4, pi.getColor());
-			stmt.execute();
-			rs=stmt.getGeneratedKeys();
+			stmt.setString(3, pi.getColor());
+			stmt.setInt(4, p.getIdPartida());
 			
-			if(rs!=null && rs.next()){
-				p.setIdPartida(rs.getInt("idPartida"));
-				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
-				return p.getIdPartida();
-			}
-			else return 0;
+			stmt.execute();
+			
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		finally{
 			try{
-				if(rs!=null ) rs.close();
 				if(stmt != null) stmt.close();
 				}
 			catch(SQLException e){
@@ -206,7 +200,6 @@ public class DatosPosicion {
 			}
 			FactoryConexion.getInstancia().releaseConn();
 		}
-		return 0;
 	}
 	
 	public void actualizar(Posicion p)

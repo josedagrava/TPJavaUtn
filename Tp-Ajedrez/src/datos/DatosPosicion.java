@@ -125,7 +125,7 @@ public class DatosPosicion {
 		
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
-			if(entry.getValue()!=null)
+			//if(entry.getValue()!=null)
 			{	
 				insertar(entry.getKey(), entry.getValue());
 				
@@ -144,10 +144,11 @@ public class DatosPosicion {
 			stmt.setInt(1, p.getIdPartida());
 			rs= stmt.executeQuery();
 			
-			if (rs==null)
+			if (rs!=null && rs.next())
 			{
-				existe=false;
+				existe=true;
 			}
+			else existe=false;
 
 		}
 			
@@ -196,21 +197,14 @@ public class DatosPosicion {
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into posicion(tipoPieza, posicion, estaEnTablero, color)"
-					+ "values(?,?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("insert into posicion(tipoPieza, posicion, color, idPartida)"
+					+ "values(?,?,?,?)");
 			stmt.setString(1, p.getTipoPieza());
 			stmt.setString(2, p.getPosicion());
-			stmt.setBoolean(3, p.isEstaEnTablero());
-			stmt.setString(4, pi.getColor());
+			stmt.setString(3, pi.getColor());
+			stmt.setInt(4, p.getIdPartida());
 			stmt.execute();
-			rs=stmt.getGeneratedKeys();
 			
-			if(rs!=null && rs.next()){
-				p.setIdPartida(rs.getInt("idPartida"));
-				DatosPosicion.addPosicionesIniciales(p.getIdPartida());
-				return p.getIdPartida();
-			}
-			else return 0;
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block

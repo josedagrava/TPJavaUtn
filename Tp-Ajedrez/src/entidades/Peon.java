@@ -33,7 +33,7 @@ public class Peon extends Pieza{
 	{
 		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE
 		
-		boolean s=false, respuesta=false, d1=false, d2=false,d3=false,d4=false,d5=false, d6=false,d7=false,d8=false;
+		boolean s=false, respuesta=false, d1=false, d2=false,d3=false,d4=false,d5=false, d6=false,d7=false;
 		char letraInicial = posInicial.charAt(0);	
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -47,16 +47,16 @@ public class Peon extends Pieza{
 		int diferenciaL= letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		s=super.EsMovimientoValido(posInicial, posFinal);
+		s=super.esMovimientoValido(posInicial, posFinal);
 		
-		// BLANCAS
+		// NEGRAS
 		
 		if((diferenciaL==1) && (diferenciaN==1))
 		{
 			d1=true;
 		}
 		
-		if((diferenciaL==1) && (diferenciaN==-1))
+		if((diferenciaL==-1) && (diferenciaN==1))
 		{
 			d2=true;
 		}
@@ -64,16 +64,21 @@ public class Peon extends Pieza{
 		{
 			d3=true;
 		}
-		if((numeroInicio==2 || numeroInicio==7))
+		if(numeroInicial==7)
 		{
-			d4=true;
-			if((diferenciaN==2) || (diferenciaN==-2))
+			if((diferenciaN==-2) && (diferenciaL==0))
 			d4=true;
 		}
+		if (numeroInicial==2)
+			{
+				if((diferenciaN==2) && (diferenciaL==0))
+					d4=true;
+			}
 		
-		//NEGRAS
 		
-		if((diferenciaL==-1) && (diferenciaN==1))
+		//BLANCAS
+		
+		if((diferenciaL==-1) && (diferenciaN==-1))
 		{
 			d5=true;
 		}
@@ -81,14 +86,14 @@ public class Peon extends Pieza{
 		{
 			d6=true;
 		}
-		if((diferenciaL==1) && (diferenciaN==0))
+		if((diferenciaN==-1) && (diferenciaL==0))
 		{
 			d7=true;
 		}
 		
 		
 		
-		if((s) && (d4) && ((d1||d2) || (d3) || (d4)))
+		if((s) && ((d1||d2) || (d3) || (d4)))
 		{
 			respuesta=true;
 		}
@@ -98,24 +103,5 @@ public class Peon extends Pieza{
 				}
 		
 		return respuesta;
-		
-		
-		
-		/*if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (numeroInicio==2 || numeroInicio==7))  
-		{
-			respuesta= true;
-		}
-		else
-		{
-			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.EsMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
-			{
-				respuesta= true;
-			}
-			else
-			{
-				respuesta= false;
-		}	
-	}*/
 	}
 }
-

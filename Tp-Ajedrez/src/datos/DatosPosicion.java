@@ -1,12 +1,12 @@
 package datos;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Iterator;
 
 import entidades.Alfil;
 import entidades.Caballo;
@@ -113,43 +113,42 @@ public class DatosPosicion {
 		}
 	}
 
-	public void guardar() 
-	{
+	public void guardar() {
+		
+		boolean b=false;
+		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
+		{
+			b= this.consultar(entry.getKey());
+			if(b) eliminarPosicion(entry.getKey());
+			break;
+		}
+		
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
 			if(entry.getValue()!=null)
-			{
-				if(consultar(entry.getKey()))
-				{
-					actualizar(entry.getKey());
-				}
-				else
-				{
-					insertar(entry.getKey(), entry.getValue());
-				}
+			{	
+				insertar(entry.getKey(), entry.getValue());
+				
 			}
 		}
 	}
 
-	public boolean consultar(Posicion p)
-	{
+	private boolean consultar(Posicion p) {
+		
 		boolean existe=true;
 		ResultSet rs=null;
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?"
-					+ "values(?)");
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?");
 			stmt.setInt(1, p.getIdPartida());
 			rs= stmt.executeQuery();
+			
 			if (rs==null)
 			{
 				existe=false;
 			}
-			else
-			{
-				existe=true;
-			}
+
 		}
 			
 		
@@ -167,6 +166,28 @@ public class DatosPosicion {
 			FactoryConexion.getInstancia().releaseConn();
 		}
 		return existe;
+	}
+	
+	public void eliminarPosicion(Posicion p)
+	{
+		PreparedStatement stmt= null;
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("DELETE from posicion where idPartida=?");
+			stmt.setInt(1, p.getIdPartida());
+			stmt.execute();
+			
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+				try{
+					if(stmt != null) stmt.close();
+				}catch(SQLException e){
+			// TODO Auto-generated catch block
+					}
+				FactoryConexion.getInstancia().releaseConn();	
+			}
 	}
 
 	public int insertar(Posicion p, Pieza pi)
@@ -207,7 +228,6 @@ public class DatosPosicion {
 		return 0;
 	}
 	
-	
 	public void actualizar(Posicion p)
 	{
 		ResultSet rs=null;
@@ -216,9 +236,9 @@ public class DatosPosicion {
 		try{
 			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("update posicion set posicion=? where idPartida=?"
 					+ "values(?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
+			
 			stmt.setString(1, p.getPosicion());
 			stmt.setInt(2, p.getIdPartida());
-			rs= stmt.executeQuery();
 			}
 		
 		catch(SQLException e){
@@ -239,24 +259,26 @@ public class DatosPosicion {
 	
 	
 	
-	public Boolean guardarMovimiento(Posicion posInicio,String destino){
+	public boolean guardarMovimiento(Posicion posInicio,String destino){
 		Posicion po= null;
 		Pieza pi=null;
-		Boolean v=Boolean.TRUE;
-		Pieza piDest=null;
+		boolean v=true;
+		
 		
 		po= this.devolverPosicion(destino);
-		colPosiciones.remove(this.devolverPosicion(destino));
+		
 		pi=colPosiciones.get(posInicio);
 		colPosiciones.remove(posInicio);
+		Posicion poNueva= posInicio;
+		poNueva.setPosicion(destino);
 		
 		if(colPosiciones.containsKey(po)){
 			if (colPosiciones.get(po) instanceof Rey) {
-				v= Boolean.FALSE;
+				v= false;
 			}
 		}
-		colPosiciones.put(po, pi);
-		
+		colPosiciones.put(poNueva, pi);
+		colPosiciones.remove(po);//this.devolverPosicion(destino));
 		
 		 /*for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
 			     Posicion key = entry.getKey();
@@ -297,6 +319,7 @@ public class DatosPosicion {
 		 return v;
 
 		 	 }
+	
 	 public Posicion devolverPosicion(String origen){
 		 Posicion pos=null;
 		 

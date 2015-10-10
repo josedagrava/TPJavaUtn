@@ -15,7 +15,7 @@ public abstract class Pieza {
 		this.setColor(col);
 	}
 	
-	public boolean EsMovimientoValido (String posInicial, String posFinal)
+	public boolean esMovimientoValido (String posInicial, String posFinal)
 	{
 		
 		char letraInicial = posInicial.charAt(0);

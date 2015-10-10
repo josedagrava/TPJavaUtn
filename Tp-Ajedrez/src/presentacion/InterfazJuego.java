@@ -307,14 +307,16 @@ public class InterfazJuego extends JFrame {
 			if(partidaActual==null) {		
 				this.iniciarPartida();
 				this.determinarTurno();
+				this.Guardar();
 			}
 			else{
 				int opcion= JOptionPane.showConfirmDialog(contentPane, "Desea continuar la partida anterior?", "Partida"
 						+ " existente", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE);
 				if(opcion==JOptionPane.OK_OPTION){
 					oControl.cargarHashMap(partidaActual.getIdPartida());
-					this.cargarPosicionFichas();
 					this.determinarTurno();
+					this.cargarPosicionFichas();
+					
 				}
 				else {
 						opcion= (JOptionPane.showConfirmDialog(contentPane, "Eliminar la partida anterior y empezar una nueva?", "Eliminar partida "
@@ -379,6 +381,7 @@ public class InterfazJuego extends JFrame {
 		tblPosiciones.setModel(modelo);
 		
 	}
+	
 	/**
 	 * instancia la partida actual y llama a metodo cargaPosicionesfichas
 	 * */
@@ -396,19 +399,16 @@ public class InterfazJuego extends JFrame {
 	
 
 	private void clickBotonMover(){
-		Boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
+		boolean movValido= oControl.validarMovimiento(txtMovOrigen.getText(), txtMovDestino.getText(),partidaActual);
 		
 			if (movValido){
-					Boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
+					boolean continuaJuego= oControl.generarMovimiento(txtMovOrigen.getText(),txtMovDestino.getText());
 				
 					if(continuaJuego){
 					
 						oControl.modificarTurno(partidaActual);
 						txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
-						String[][] posiciones;
-					
-						posiciones = oControl.getDatosPosiciones();
-						setModelo(posiciones);
+						this.cargarPosicionFichas();
 					}
 					
 					else{

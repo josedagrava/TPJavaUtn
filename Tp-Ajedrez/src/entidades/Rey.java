@@ -6,7 +6,7 @@ public class Rey extends Pieza {
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
-		boolean respuesta=false;
+		
 		char letraInicial = posInicial.charAt(0);
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -19,16 +19,14 @@ public class Rey extends Pieza {
 		
 		int diferencia1= letraInicio-letraFin;
 		int diferencia2= numeroInicio-numeroFin;
-		if(((diferencia1==1 || diferencia1==-1 || diferencia1==0) && (diferencia2==1 || diferencia2==-1 || diferencia2==0)) && (super.EsMovimientoValido(posInicial, posFinal)))
+		if(((diferencia1==1 || diferencia1==-1 || diferencia1==0) && (diferencia2==1 || diferencia2==-1 || diferencia2==0)) && (super.esMovimientoValido(posInicial, posFinal)))
 		{
-			respuesta= true;
+			return true;
 		}
 		else
 		{
-			respuesta= false;
+			return false;
 		}
-		
-		return respuesta;
 	}
 
 	public Rey(){}

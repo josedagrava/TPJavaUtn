@@ -99,16 +99,12 @@ public class Controladora {
 		oDatosPosicion.getDatosPosiciones(idPartida);
 	}
 
-	
-	
-	
-
-	public Boolean validarMovimiento(String origen,String destino,Partida partidaActual){
-		Boolean v;
+	public boolean validarMovimiento(String origen,String destino,Partida partidaActual){
+		boolean v;
 		Pieza piezaInicio=null;
 		Pieza piezaDestino=null;
 		Posicion posInicio=null;
-		v=Boolean.TRUE;
+		v=true;
 		
 		if (origen!= destino){
 			
@@ -120,17 +116,22 @@ public class Controladora {
 			
 
 			case "P": oPieza= new Peon();
+				break;
 			case "C": oPieza= new Caballo();
+				break;
 			case "A": oPieza= new Alfil();
+				break;
 			case "T": oPieza= new Torre();
+				break;
 			case "D": oPieza= new Reina();
+				break;
 			case "R":	oPieza= new Rey();
+				break;
 			
 			}
+			v= oPieza.esMovimientoValido(origen,destino);
 			
-			v= oPieza.EsMovimientoValido(origen,destino);
-			
-				if (v== Boolean.TRUE){
+				if (v== true){
 					
 					String color;
 					if(partidaActual.getDniBlancas()== partidaActual.getDniTurno()){
@@ -139,43 +140,40 @@ public class Controladora {
 						color="N";
 					}
 				   
-					if (piezaInicio.getColor()!= color){
-				    	  v=Boolean.FALSE;
+					if (piezaInicio.getColor()== color){
+				    	  v=true;
 				    	  
-				    	  if(v==Boolean.TRUE){
+				    	  if(v==true){
 				    		 
 				    		  piezaDestino=oDatosPosicion.devolverPieza(destino);
 				    		  
-				    		  if (piezaDestino.getColor()==color){
+				    		  if (piezaDestino!=null && piezaDestino.getColor()==color){
 				    			  
-				    			  v=Boolean.FALSE;
+				    			  v=false;
 				    		  }
 				    	  }
 				    }
+					else v=false;
 				
 				}
 			 
 		}
 		else{
-			v= Boolean.FALSE;
+			v= false;
 			
 		}
 		
 		return v;
-		
-		
-		
-		
 	
 }
 	
-	public Boolean generarMovimiento(String origen, String destino){
+	public boolean generarMovimiento(String origen, String destino){
 		
 		Posicion posInicio;
 		
 		posInicio= oDatosPosicion.devolverPosicion(origen);
 		
-		Boolean v=oDatosPosicion.guardarMovimiento(posInicio, destino);
+		boolean v=oDatosPosicion.guardarMovimiento(posInicio, destino);
 		
 		return v;
 	}

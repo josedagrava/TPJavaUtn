@@ -34,7 +34,6 @@ public class Peon extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
-		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE
 		
 		hash= DatosPosicion.getHashMap();
 		
@@ -92,12 +91,12 @@ public class Peon extends Pieza{
 		{
 			d3=true;
 		}
-		if(numeroInicial==7)
+		if(numeroInicio==55)
 		{
 			if((diferenciaN==-2) && (diferenciaL==0))
 			d4=true;
 		}
-		if (numeroInicial==2)
+		if (numeroInicio==50)
 			{
 				if((diferenciaN==2) && (diferenciaL==0))
 					d4=true;

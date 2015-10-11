@@ -228,34 +228,7 @@ public class DatosPosicion {
 		}
 	}
 	
-	public void actualizar(Posicion p)
-	{
-		ResultSet rs=null;
-		PreparedStatement stmt=null;
-		
-		try{
-			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("update posicion set posicion=? where idPartida=?"
-					+ "values(?,?)", PreparedStatement.RETURN_GENERATED_KEYS);
-			
-			stmt.setString(1, p.getPosicion());
-			stmt.setInt(2, p.getIdPartida());
-			}
-		
-		catch(SQLException e){
-			// TODO Auto-generated catch block
-		}
-		finally{
-			try{
-				if(rs!=null ) rs.close();
-				if(stmt != null) stmt.close();
-				}
-			catch(SQLException e){
-				
-			}
-			FactoryConexion.getInstancia().releaseConn();
-		}
-	}
-
+	
 	
 	
 	

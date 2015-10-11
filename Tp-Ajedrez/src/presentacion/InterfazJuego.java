@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -28,8 +29,6 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class InterfazJuego extends JFrame {
 
@@ -67,12 +66,6 @@ public class InterfazJuego extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazJuego() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent arg0) {
-				clickCerrarVentana();
-			}
-		});
 		setTitle("\"EL\" Ajedrez");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 585, 640);
@@ -312,8 +305,7 @@ public class InterfazJuego extends JFrame {
 			
 			partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
 			if(partidaActual==null) {		
-				this.iniciarPartida();
-				this.determinarTurno();
+				this.nuevoJuego();
 				this.Guardar();
 			}
 			else{
@@ -322,7 +314,6 @@ public class InterfazJuego extends JFrame {
 				if(opcion==JOptionPane.OK_OPTION){
 					oControl.cargarHashMap(partidaActual.getIdPartida());
 					this.determinarTurno();
-					this.cargarPosicionFichas();
 					
 				}
 				else {
@@ -330,9 +321,8 @@ public class InterfazJuego extends JFrame {
 							+ "anterior", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE));
 					
 						if(opcion==JOptionPane.YES_OPTION){
-							oControl.deletePartida(partidaActual);
-							this.iniciarPartida();
-							this.determinarTurno();
+						oControl.deletePartida(partidaActual);
+						this.nuevoJuego();
 						}
 						else{
 							System.exit(0);
@@ -343,36 +333,39 @@ public class InterfazJuego extends JFrame {
 		else
 		{
 			int op= JOptionPane.showConfirmDialog(contentPane, "Estas saliendo de la partida actual. Desea guardar"
-					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
-			if(op==JOptionPane.YES_OPTION){
-				
-				this.Guardar();
-			}
-			partidaActual=oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
+					+ " los avances?", "CUIDADO", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 			
-			if(null==partidaActual){
-				this.nuevoJuego();
-			}else {
-				this.determinarTurno();
-				this.cargarPosicionFichas();
+			if(op!=JOptionPane.CANCEL_OPTION){
+				if(op==JOptionPane.YES_OPTION){				
+					this.Guardar();
+					}
+				if(partidaActual.getDniBlancas() != Integer.parseInt(txtDniBlancas.getText())){
+					partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
+					oControl.cargarHashMap(partidaActual.getIdPartida());
+					this.determinarTurno();
+				}
+			}
+			else{
+				txtDniBlancas.setText(String.valueOf(partidaActual.getDniBlancas()));
+				txtDniNegras.setText(String.valueOf(partidaActual.getDniNegras()));
 			}
 		}
 	}
 	
 	private void nuevoJuego() {
-		
 		this.iniciarPartida();
 		this.determinarTurno();
-		this.cargarPosicionFichas();
 		
 	}
 
 	/**
-	 * pide a clase controladora el nombre y apellido del jugador que tiene turno y lo setea al textBox
+	 * pide a clase controladora el nombre y apellido del jugador que tiene turno y lo setea al textBox. 
+	 * Ademas carga el JTable con las posiciones de las fichas
 	 * */
 	private void determinarTurno() {
 		
 		txtNomyApeTurno.setText(oControl.getJugador(partidaActual.getDniTurno()));
+		this.cargarPosicionFichas();
 		
 	}
 	
@@ -412,20 +405,8 @@ public class InterfazJuego extends JFrame {
 		
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
 		partidaActual.setIdPartida(oControl.addPartida(partidaActual));
-		this.cargarPosicionFichas();
 	}
 	
-	/**
-	 * Solicita guardar partida y cierra el juego
-	 * */
-	private void clickCerrarVentana(){
-		if(JOptionPane.OK_OPTION == (JOptionPane.showConfirmDialog(contentPane, "Esta saliendo del juego. Desea guardar la partida?", "OJO-Peligro"
-				+ "-Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))){
-			
-			this.Guardar();}
-		
-		System.exit(0);
-	}
 	private void Guardar()
 	{
 		oControl.guardar();

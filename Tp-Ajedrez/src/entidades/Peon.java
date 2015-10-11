@@ -1,9 +1,12 @@
 package entidades;
 
 import java.util.HashMap;
+import java.util.Map.Entry;
+
+import datos.DatosPosicion;
 
 public class Peon extends Pieza{
-
+	HashMap<Posicion, Pieza> hash;
 	public Peon(){}
 	public Peon(String color){
 		this.setColor(color);
@@ -33,6 +36,8 @@ public class Peon extends Pieza{
 	{
 		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE
 		
+		hash= DatosPosicion.getHashMap();
+		
 		boolean s=false, respuesta=false, d1=false, d2=false,d3=false,d4=false,d5=false, d6=false,d7=false;
 		char letraInicial = posInicial.charAt(0);	
 		char numeroInicial = posInicial.charAt(1);
@@ -49,17 +54,40 @@ public class Peon extends Pieza{
 		
 		s=super.esMovimientoValido(posInicial, posFinal);
 		
-		// NEGRAS
 		
-		if((diferenciaL==1) && (diferenciaN==1))
-		{
-			d1=true;
-		}
+		bucle1: for(Entry<Posicion, Pieza> entry: hash.entrySet())
+			{		
+				
+						if(entry.getKey().getPosicion().equals(posFinal))
+						{
+								if((diferenciaL==1) && (diferenciaN==1))
+									{
+										d1=true;
+										break bucle1;
+									}
+				
+								if((diferenciaL==-1) && (diferenciaN==1))
+									{
+										d2=true;
+										break bucle1;
+									}
+				
+								if((diferenciaL==-1) && (diferenciaN==-1))
+									{
+										d5=true;
+										break bucle1;
+									}
+				
+								if((diferenciaL==1) && (diferenciaN==-1))
+									{
+										d6=true;
+										break bucle1;
+									}
+				
+					}
+			}
 		
-		if((diferenciaL==-1) && (diferenciaN==1))
-		{
-			d2=true;
-		}
+		
 		if((diferenciaL==0) && (diferenciaN==1))
 		{
 			d3=true;
@@ -76,22 +104,10 @@ public class Peon extends Pieza{
 			}
 		
 		
-		//BLANCAS
-		
-		if((diferenciaL==-1) && (diferenciaN==-1))
-		{
-			d5=true;
-		}
-		if((diferenciaL==1) && (diferenciaN==-1))
-		{
-			d6=true;
-		}
 		if((diferenciaN==-1) && (diferenciaL==0))
 		{
 			d7=true;
-		}
-		
-		
+		}				
 		
 		if((s) && ((d1||d2) || (d3) || (d4)))
 		{

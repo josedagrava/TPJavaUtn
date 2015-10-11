@@ -23,9 +23,9 @@ public abstract class Pieza {
 		char letraFinal = posFinal.charAt(0);
 		char numeroFinal = posFinal.charAt(1);
 		
-		if (((letraInicial=='a') || (letraInicial=='b') || (letraInicial=='c') || (letraInicial=='d') || (letraInicial=='e') || (letraInicial=='f') || (letraInicial=='g') || (letraInicial=='h'))
+		if (((letraInicial=='A') || (letraInicial=='B') || (letraInicial=='C') || (letraInicial=='D') || (letraInicial=='E') || (letraInicial=='F') || (letraInicial=='G') || (letraInicial=='H'))
 			&& ((numeroInicial=='1') || (numeroInicial=='2') || (numeroInicial=='3') || (numeroInicial=='4') || (numeroInicial=='5') || (numeroInicial=='6') || (numeroInicial=='7') || (numeroInicial=='8'))
-			&& ((letraFinal=='a') || (letraFinal=='b') || (letraFinal=='c') || (letraFinal=='d') || (letraFinal=='e') || (letraFinal=='f') || (letraFinal=='g') || (letraFinal=='h'))
+			&& ((letraFinal=='A') || (letraFinal=='B') || (letraFinal=='C') || (letraFinal=='D') || (letraFinal=='R') || (letraFinal=='F') || (letraFinal=='G') || (letraFinal=='H'))
 			&& ((numeroFinal=='1') || (numeroFinal=='2') || (numeroFinal=='3') || (numeroFinal=='4') || (numeroFinal=='5') || (numeroFinal=='6') || (numeroFinal=='7') || (numeroFinal=='8'))) 
 		
 			{	

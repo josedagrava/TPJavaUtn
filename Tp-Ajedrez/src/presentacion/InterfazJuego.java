@@ -28,6 +28,8 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class InterfazJuego extends JFrame {
 
@@ -65,6 +67,12 @@ public class InterfazJuego extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazJuego() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				clickCerrarVentana();
+			}
+		});
 		setTitle("\"EL\" Ajedrez");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 585, 640);
@@ -322,9 +330,9 @@ public class InterfazJuego extends JFrame {
 							+ "anterior", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE));
 					
 						if(opcion==JOptionPane.YES_OPTION){
-						oControl.deletePartida(partidaActual);
-						this.iniciarPartida();
-						this.determinarTurno();
+							oControl.deletePartida(partidaActual);
+							this.iniciarPartida();
+							this.determinarTurno();
 						}
 						else{
 							System.exit(0);
@@ -340,9 +348,25 @@ public class InterfazJuego extends JFrame {
 				
 				this.Guardar();
 			}
+			partidaActual=oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
+			
+			if(null==partidaActual){
+				this.nuevoJuego();
+			}else {
+				this.determinarTurno();
+				this.cargarPosicionFichas();
+			}
 		}
 	}
 	
+	private void nuevoJuego() {
+		
+		this.iniciarPartida();
+		this.determinarTurno();
+		this.cargarPosicionFichas();
+		
+	}
+
 	/**
 	 * pide a clase controladora el nombre y apellido del jugador que tiene turno y lo setea al textBox
 	 * */
@@ -391,6 +415,17 @@ public class InterfazJuego extends JFrame {
 		this.cargarPosicionFichas();
 	}
 	
+	/**
+	 * Solicita guardar partida y cierra el juego
+	 * */
+	private void clickCerrarVentana(){
+		if(JOptionPane.OK_OPTION == (JOptionPane.showConfirmDialog(contentPane, "Esta saliendo del juego. Desea guardar la partida?", "OJO-Peligro"
+				+ "-Warning", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE))){
+			
+			this.Guardar();}
+		
+		System.exit(0);
+	}
 	private void Guardar()
 	{
 		oControl.guardar();

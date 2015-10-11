@@ -31,8 +31,9 @@ public class Peon extends Pieza{
 
 	public boolean esMovimientoValido(String posInicial, String posFinal)
 	{
-		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE 
+		//FALTA TERMINAR MOVIMIENTO INICIAL DOBLE
 		
+		boolean s=false, respuesta=false, d1=false, d2=false,d3=false,d4=false,d5=false, d6=false,d7=false;
 		char letraInicial = posInicial.charAt(0);	
 		char numeroInicial = posInicial.charAt(1);
 		char letraFinal = posFinal.charAt(0);
@@ -46,24 +47,61 @@ public class Peon extends Pieza{
 		int diferenciaL= letraFin-letraInicio;
 		int diferenciaN=numeroFin-numeroInicio;
 		
-		if((((diferenciaL==1) && (diferenciaN==1)) || ((diferenciaL==1) && (diferenciaN==-1)) || ((diferenciaL==1) && (diferenciaN==0))) && (super.esMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))  
+		s=super.esMovimientoValido(posInicial, posFinal);
+		
+		// NEGRAS
+		
+		if((diferenciaL==1) && (diferenciaN==1))
 		{
-			return true;
+			d1=true;
 		}
-		else
+		
+		if((diferenciaL==-1) && (diferenciaN==1))
 		{
-			if(((diferenciaL==-1) && (diferenciaN==1)) || ((diferenciaL==-1) && (diferenciaN==-1)) || ((diferenciaL==-1) && (diferenciaN==0)) && (super.esMovimientoValido(posInicial, posFinal)) && (numeroInicio==2 || numeroInicio==7))
+			d2=true;
+		}
+		if((diferenciaL==0) && (diferenciaN==1))
+		{
+			d3=true;
+		}
+		if(numeroInicial==7)
+		{
+			if((diferenciaN==-2) && (diferenciaL==0))
+			d4=true;
+		}
+		if (numeroInicial==2)
 			{
-				return true;
+				if((diferenciaN==2) && (diferenciaL==0))
+					d4=true;
 			}
-			else
-			{
-				return false;
+		
+		
+		//BLANCAS
+		
+		if((diferenciaL==-1) && (diferenciaN==-1))
+		{
+			d5=true;
+		}
+		if((diferenciaL==1) && (diferenciaN==-1))
+		{
+			d6=true;
+		}
+		if((diferenciaN==-1) && (diferenciaL==0))
+		{
+			d7=true;
 		}
 		
 		
 		
-	}
+		if((s) && ((d1||d2) || (d3) || (d4)))
+		{
+			respuesta=true;
+		}
+		else if((s) && ((d5||d6) || (d7) || (d4)))
+				{
+			respuesta= true;
+				}
+		
+		return respuesta;
 	}
 }
-

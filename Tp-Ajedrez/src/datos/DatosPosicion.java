@@ -1,5 +1,6 @@
 package datos;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -31,20 +32,23 @@ public class DatosPosicion {
 		
 		try{
 			
-			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("Select * from posicion where idPartida=?");
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?");
+			
 			stmt.setInt(1, id);
 			
 			rs= stmt.executeQuery();
 			while(rs.next()){
-				Posicion posic=new Posicion();
+				
+				Posicion posic=new Posicion();				
 				posic.setIdPartida(rs.getInt("idPartida"));
-				posic.setEstaEnTablero(rs.getBoolean("estaEnTablero"));
 				posic.setPosicion(rs.getString("posicion"));
+				posic.setTipoPieza(rs.getString("tipoPieza"));
 				
 				Pieza pieza=devolverObjetoPieza(rs.getString("tipoPieza"));
 				pieza.setColor(rs.getString("color"));
 				
 				colPosiciones.put(posic, pieza);
+				
 			}
 		}
 		catch(SQLException e){
@@ -89,8 +93,7 @@ public class DatosPosicion {
 			break;
 		case "D": objeto = new Reina();
 			break;
-		default:
-			break;
+			
 		}
 		return objeto;
 	}
@@ -116,20 +119,21 @@ public class DatosPosicion {
 	}
 
 	public void guardar() {
-	
+		
+		boolean b=false;
+
 		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
 		{
-			if(entry.getValue()!=null)
-			{
-				
-				if(this.consultar(entry.getKey()))
-				{
-					actualizar(entry.getKey());
-				}
-				else
-				{
-					insertar(entry.getKey(), entry.getValue());
-				}
+			b= this.consultar(entry.getKey());
+			if(b) eliminarPosicion(entry.getKey());
+			break;
+		}
+		
+		for(Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet())
+		{
+			//if(entry.getValue()!=null)
+			{	
+				insertar(entry.getKey(), entry.getValue());
 				
 			}
 		}
@@ -142,17 +146,18 @@ public class DatosPosicion {
 		PreparedStatement stmt=null;
 		
 		try{
-			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("SELECT * FROM posicion where idPartida=?");
-			
+
+			stmt = FactoryConexion.getInstancia().getConn().prepareStatement("select * from posicion where idPartida=?");
+
 			stmt.setInt(1, p.getIdPartida());
 			
 			rs= stmt.executeQuery();
 			
-			if(rs!=null & rs.next())
+			if (rs!=null && rs.next())
 			{
-				existe = true;
+				existe=true;
 			}
-			else existe= false;
+			else existe=false;
 		}
 			
 		
@@ -171,6 +176,28 @@ public class DatosPosicion {
 		}
 		return existe;
 	}
+	
+	public void eliminarPosicion(Posicion p)
+	{
+		PreparedStatement stmt= null;
+		try{
+			stmt= FactoryConexion.getInstancia().getConn().prepareStatement("DELETE from posicion where idPartida=?");
+			stmt.setInt(1, p.getIdPartida());
+			stmt.execute();
+			
+		}catch(SQLException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+				try{
+					if(stmt != null) stmt.close();
+				}catch(SQLException e){
+			// TODO Auto-generated catch block
+					}
+				FactoryConexion.getInstancia().releaseConn();	
+			}
+	}
 
 	public void insertar(Posicion p, Pieza pi)
 	{
@@ -183,9 +210,8 @@ public class DatosPosicion {
 			stmt.setString(2, p.getPosicion());
 			stmt.setString(3, pi.getColor());
 			stmt.setInt(4, p.getIdPartida());
-			
+
 			stmt.execute();
-			
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block

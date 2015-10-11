@@ -104,7 +104,6 @@ public class Controladora {
 	 * le pide a clase DatosPosiciones que instancia las posiciones guardadas en DB en el hashMap
 	 * */
 	public void cargarHashMap(int idPartida) {
-		DatosPosicion oDatosPosicion= new DatosPosicion();
 		
 		oDatosPosicion.getDatosPosiciones(idPartida);
 	}
@@ -150,14 +149,14 @@ public class Controladora {
 						color="N";
 					}
 				   
-					if (piezaInicio.getColor()== color){
+					if (piezaInicio.getColor().equalsIgnoreCase(color)){
 				    	  v=true;
 				    	  
 				    	  if(v==true){
 				    		 
 				    		  piezaDestino=oDatosPosicion.devolverPieza(destino);
 				    		  
-				    		  if (piezaDestino!=null && piezaDestino.getColor()==color){
+				    		  if (piezaDestino!=null && piezaDestino.getColor().equalsIgnoreCase(color)){
 				    			  
 				    			  v=false;
 				    		  }

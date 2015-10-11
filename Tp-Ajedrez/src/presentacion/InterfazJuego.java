@@ -29,6 +29,8 @@ import javax.swing.table.DefaultTableModel;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class InterfazJuego extends JFrame {
 
@@ -66,6 +68,12 @@ public class InterfazJuego extends JFrame {
 	 * Create the frame.
 	 */
 	public InterfazJuego() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				cerrarVentana();
+			}
+		});
 		setTitle("\"EL\" Ajedrez");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 585, 640);
@@ -341,8 +349,11 @@ public class InterfazJuego extends JFrame {
 					}
 				if(partidaActual.getDniBlancas() != Integer.parseInt(txtDniBlancas.getText())){
 					partidaActual= oControl.buscarPartida(txtDniBlancas.getText(), txtDniNegras.getText());
-					oControl.cargarHashMap(partidaActual.getIdPartida());
-					this.determinarTurno();
+					if(partidaActual!=null){
+						oControl.cargarHashMap(partidaActual.getIdPartida());
+						this.determinarTurno();
+					}
+					else this.nuevoJuego();
 				}
 			}
 			else{
@@ -406,6 +417,20 @@ public class InterfazJuego extends JFrame {
 		partidaActual=new Partida(Integer.parseInt(txtDniBlancas.getText()),Integer.parseInt(txtDniNegras.getText()),Integer.parseInt(txtDniBlancas.getText()),"Empezado");
 		partidaActual.setIdPartida(oControl.addPartida(partidaActual));
 	}
+	
+	/**
+	 * Cierra el juego, solicitando guardar la partida.
+	 * */
+	private void cerrarVentana(){
+	
+		if(JOptionPane.OK_OPTION==JOptionPane.showConfirmDialog(contentPane, "Estas saliendo del juego. Guardar la"
+				+ " partida?", "OJO-Cuidado-Warning", JOptionPane.OK_CANCEL_OPTION,JOptionPane.WARNING_MESSAGE)){
+			this.Guardar();
+			System.exit(0);
+		}
+		//else CANCELAR CIERRE DEL JUEGO. COMO SE HACE?
+	}
+	
 	
 	private void Guardar()
 	{

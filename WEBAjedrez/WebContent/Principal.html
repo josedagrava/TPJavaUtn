@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Ajedrez</title>
+
+<script type="text/javascript">
+	function carga(){
+		document.getElementById("txtBlancas").focus();
+	}
+	function buscarJugador() {
+		var blanca= document.getElementById("txtBlancas");
+		var negra= document.getElementById("txtNegras");
+		
+	}
+</script>
+</head>
+<body onload="carga();">
+
+<form action="Inicio" method="POST">
+<h2 align="center">El majestuoso Ajedrez</h2>
+<h3 align="center" "font-weight: bold; color:green; ">Ingrese dni de los jugadores</h3>
+	<table align="center">
+	<tr>
+		<td style="font-weight: bold; color:red; " align="right">
+		<label for="dniBlancas">Jugador Blancas: </label></td>
+		<td>
+		<input name="txtBlancas" type="text" id="txtBlancas"></td>
+	</tr>
+	<tr>
+		<td style="font-weight: bold; color:red; " align="right">
+		<label for="dniNegras">Jugador Negras: </label></td>
+		<td>
+		<input name="txtNegras" id="dniNegras" type="text"></td>		
+	</tr>
+	<tr>
+	<td></td>
+		<td align="right"><input type="submit" value="Jugar"></td>
+	</tr>
+	</table>
+	
+	</form>
+</body>
+</html>

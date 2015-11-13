@@ -228,10 +228,6 @@ public class DatosPosicion {
 		}
 	}
 	
-	
-	
-	
-	
 	public boolean guardarMovimiento(Posicion posInicio,String destino){
 		Posicion po= null;
 		Pieza pi=null;
@@ -253,42 +249,6 @@ public class DatosPosicion {
 		colPosiciones.put(poNueva, pi);
 		colPosiciones.remove(po);//this.devolverPosicion(destino));
 		
-		 /*for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
-			     Posicion key = entry.getKey();
-			     
-			     Pieza value = entry.getValue();
-			     
-			     if(key == posInicio){
-			    	 po=key;
-			    	 pi= value;
-			    	 
-			    	 colPosiciones.remove(key);
-			    	 colPosiciones.remove(value);
-			    	 
-			    	 }
-			     }*/
-		 /*
-		 po.setPosicion(destino);
-		 colPosiciones.put(po, pi);
-		 
-		 
-		 for (Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
-		     Posicion key = entry.getKey();
-		     
-		     Pieza value = entry.getValue();
-		     
-		     if(key.getPosicion() == destino){
-		    	 
-		    	 if(key.getTipoPieza()=="Rey"){
-		    		 v=Boolean.FALSE;
-		    	 
-		    	 }
-		    	 colPosiciones.remove(key);
-		    	 colPosiciones.remove(value);
-		    	 
-		    	 }
-		     }*/
-		 
 		 return v;
 
 		 	 }

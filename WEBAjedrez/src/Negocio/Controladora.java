@@ -5,12 +5,23 @@ import Entidades.*;
 
 import java.util.HashMap;
 
+import javax.servlet.http.HttpServletRequest;
+
 public class Controladora {
+	
+	private DatosJugadores oDatos;
+	private DatosPosicion oDatosPosicion;
+	private DatosPartidas oDatosPartida;
+	
+	public Controladora(){}
+	public Controladora(HttpServletRequest request){
 		
+		oDatos = new DatosJugadores();
+		oDatosPosicion= new DatosPosicion(request);
+		oDatosPartida = new DatosPartidas();
+	}
+	
 	//Metodos a DatosJugadores
-	DatosJugadores oDatos = new DatosJugadores();
-	DatosPosicion oDatosPosicion= new DatosPosicion();
-	DatosPartidas oDatosPartida = new DatosPartidas();
 	/**
 	 * retorna el Nombre y Apellido del jugador que tiene el turno que fue buscado en la base de datos.
 	 * */
@@ -99,11 +110,17 @@ public class Controladora {
 	}
 	
 	/**
+	 * pide le hashmap a la base de datos y lo devuelve.
+	 * */
+	public HashMap<Posicion, Pieza> getHashMap(){
+		return DatosPosicion.getHashMap();
+	}
+	/**
 	 * le pide a clase DatosPosiciones que instancia las posiciones guardadas en DB en el hashMap
 	 * */
-	public void cargarHashMap(int idPartida) {
+	public HashMap<Posicion, Pieza> cargarHashMap(int idPartida) {
 		
-		oDatosPosicion.getDatosPosiciones(idPartida);
+		return oDatosPosicion.getDatosPosiciones(idPartida);
 	}
 
 	public boolean validarMovimiento(String origen,String destino,Partida partidaActual){
@@ -174,13 +191,13 @@ public class Controladora {
 	
 }
 	
-	public boolean generarMovimiento(String origen, String destino){
+	public boolean generarMovimiento(String origen, String destino,HttpServletRequest request){
 		
 		Posicion posInicio;
 		
 		posInicio= oDatosPosicion.devolverPosicion(origen);
 		
-		boolean v=oDatosPosicion.guardarMovimiento(posInicio, destino);
+		boolean v=oDatosPosicion.guardarMovimiento(posInicio, destino,request);
 		
 		return v;
 	}
@@ -194,8 +211,7 @@ public class Controladora {
 	/* metodo para guardar las posiciones del tablero en el hash map*/
 	
 	public void guardar() {
-	 
-		DatosPosicion oDatosPosicion = new DatosPosicion();
+		
 		oDatosPosicion.guardar();
 	}
 

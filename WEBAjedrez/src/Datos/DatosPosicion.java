@@ -7,17 +7,24 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import Entidades.*;
 
 public class DatosPosicion {
 	
 	static HashMap<Posicion, Pieza> colPosiciones;
-	
+	private HttpServletRequest reque;
+	public DatosPosicion(){}
+	public DatosPosicion(HttpServletRequest request){
+		reque=request;
+		colPosiciones= (HashMap<Posicion, Pieza>)request.getSession().getAttribute("colPosiciones");
+	}
 	
 	/**
 	 * Carga el HashMap colPosiciones con las posiciones de la partida de la DB
 	 * */
-	public void getDatosPosiciones(int id) {
+	public HashMap<Posicion, Pieza> getDatosPosiciones(int id) {
 		ResultSet rs=null;
 		PreparedStatement stmt= null;
 		colPosiciones= new HashMap<Posicion, Pieza>();
@@ -42,6 +49,7 @@ public class DatosPosicion {
 				colPosiciones.put(posic, pieza);
 				
 			}
+			return colPosiciones;
 		}
 		catch(SQLException e){
 			// TODO Auto-generated catch block
@@ -56,7 +64,8 @@ public class DatosPosicion {
 				// TODO Auto-generated catch block
 			}
 			FactoryConexion.getInstancia().releaseConn();
-		}		
+		}	
+		return colPosiciones;
 	}
 	
 	/**
@@ -220,16 +229,11 @@ public class DatosPosicion {
 		}
 	}
 	
-	
-	
-	
-	
-	public boolean guardarMovimiento(Posicion posInicio,String destino){
+	public boolean guardarMovimiento(Posicion posInicio,String destino, HttpServletRequest request){
 		Posicion po= null;
 		Pieza pi=null;
 		boolean v=true;
-		
-		
+	
 		po= this.devolverPosicion(destino);
 		
 		pi=colPosiciones.get(posInicio);
@@ -244,44 +248,9 @@ public class DatosPosicion {
 		}
 		colPosiciones.put(poNueva, pi);
 		colPosiciones.remove(po);//this.devolverPosicion(destino));
-		
-		 /*for( Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
-			     Posicion key = entry.getKey();
-			     
-			     Pieza value = entry.getValue();
-			     
-			     if(key == posInicio){
-			    	 po=key;
-			    	 pi= value;
-			    	 
-			    	 colPosiciones.remove(key);
-			    	 colPosiciones.remove(value);
-			    	 
-			    	 }
-			     }*/
-		 /*
-		 po.setPosicion(destino);
-		 colPosiciones.put(po, pi);
-		 
-		 
-		 for (Map.Entry<Posicion, Pieza> entry : colPosiciones.entrySet()) {
-		     Posicion key = entry.getKey();
-		     
-		     Pieza value = entry.getValue();
-		     
-		     if(key.getPosicion() == destino){
-		    	 
-		    	 if(key.getTipoPieza()=="Rey"){
-		    		 v=Boolean.FALSE;
-		    	 
-		    	 }
-		    	 colPosiciones.remove(key);
-		    	 colPosiciones.remove(value);
-		    	 
-		    	 }
-		     }*/
-		 
-		 return v;
+		request.getSession().setAttribute("turno", "JOOsecito");
+		request.getSession().setAttribute("colPosiciones", colPosiciones);
+		return v;
 
 		 	 }
 	
